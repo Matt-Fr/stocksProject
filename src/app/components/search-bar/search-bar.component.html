@@ -1,0 +1,11 @@
+<p>search-bar works!</p>
+<form (ngSubmit)="onSubmit()">
+  <label for="search-bar"></label>
+  <input
+    type="text"
+    id="search-bar"
+    [(ngModel)]="enteredText"
+    name="searchValue"
+  />
+  <button type="submit">Submit</button>
+</form>
