@@ -1,4 +1,11 @@
-import { Component, EventEmitter, input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  input,
+  output,
+  Output,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -9,11 +16,11 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './search-bar.component.css',
 })
 export class SearchBarComponent {
-  @Output() checkEnteredText = new EventEmitter<string>();
-  enteredText = '';
+  checkEnteredText = output<string>();
+  enteredText = signal('');
 
   onSubmit() {
     console.log('submitted!');
-    this.checkEnteredText.emit(this.enteredText);
+    this.checkEnteredText.emit(this.enteredText());
   }
 }
