@@ -1,6 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-home',
@@ -11,6 +13,20 @@ import { SearchBarComponent } from '../../components/search-bar/search-bar.compo
 })
 export class HomeComponent {
   enteredText = signal<string>('');
+
+  private httpClient = inject(HttpClient);
+  private destroyRef = inject(DestroyRef);
+
+  ngOnInit(): void {
+    const subscription = this.httpClient
+      .get(
+        `https://api.polygon.io/v2/aggs/ticker/MSFT/range/1/day/2023-01-09/2023-02-10?adjusted=true&sort=asc&apiKey=${environment.apiKeyPolygon}`
+      )
+      .subscribe({});
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
+  }
 
   checkInput(data: string) {
     this.enteredText.set(data);
