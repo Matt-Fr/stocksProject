@@ -1,4 +1,7 @@
-<app-search-bar (checkEnteredText)="checkInput($event)"></app-search-bar>
+<app-search-bar (checkEnteredText)="checkInput($event)"></app-search-bar> @if
+(searchBarError) {
+<p>THIS TICKER DOES NOT EXIST</p>
+}
 <div>
   <a [routerLink]="['/GOOG']">Google</a>
   <a [routerLink]="['/SPY']">S&P500</a>

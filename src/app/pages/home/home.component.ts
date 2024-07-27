@@ -16,17 +16,22 @@ export class HomeComponent {
 
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
+  searchBarError = false;
 
-  ngOnInit(): void {
-    const subscription = this.httpClient
-      .get(
-        `https://api.polygon.io/v2/aggs/ticker/MSFT/range/1/day/2023-01-09/2023-02-10?adjusted=true&sort=asc&apiKey=${environment.apiKeyPolygon}`
-      )
-      .subscribe({});
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
-    });
-  }
+  // ngOnInit(): void {
+  //   const subscription = this.httpClient
+  //     .get(
+  //       `https://api.polygon.io/v2/aggs/ticker/MSFT/range/1/day/2023-01-09/2023-02-10?adjusted=true&sort=asc&apiKey=${environment.apiKeyPolygon}`
+  //     )
+  //     .subscribe({
+  //       next: (resData) => {
+  //         console.log(resData);
+  //       },
+  //     });
+  //   this.destroyRef.onDestroy(() => {
+  //     subscription.unsubscribe();
+  //   });
+  // }
 
   checkInput(data: string) {
     this.enteredText.set(data);
