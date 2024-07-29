@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, DestroyRef, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment.development';
+import { StockInfoApiResponse } from '../../models/StockInfo.model';
 
 @Component({
   selector: 'app-stock',
@@ -14,7 +15,7 @@ export class StockComponent {
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
   private route = inject(ActivatedRoute);
-  daata: any = {};
+  data: StockInfoApiResponse | null = null;
   pic: string = '';
 
   ngOnInit(): void {
@@ -22,14 +23,13 @@ export class StockComponent {
 
     if (ticker) {
       const subscription = this.httpClient
-        .get(
+        .get<StockInfoApiResponse>(
           `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=${environment.apiKeyPolygon}`
         )
         .subscribe({
           next: (resData) => {
             console.log(resData);
-            this.daata = resData;
-            this.pic = this.daata?.results?.branding?.logo_url || '';
+            this.data = resData;
           },
         });
       this.destroyRef.onDestroy(() => {
