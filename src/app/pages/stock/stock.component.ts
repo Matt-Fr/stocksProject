@@ -38,5 +38,22 @@ export class StockComponent {
     } else {
       console.error('Ticker not found in the URL');
     }
+
+    if (ticker) {
+      const subscription = this.httpClient
+        .get<StockInfoApiResponse>(
+          `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/month/2023-01-09/2024-02-10?adjusted=true&sort=asc&apiKey=${environment.apiKeyPolygon}`
+        )
+        .subscribe({
+          next: (resData) => {
+            console.log(resData);
+          },
+        });
+      this.destroyRef.onDestroy(() => {
+        subscription.unsubscribe();
+      });
+    } else {
+      console.error('Ticker not found in the URL');
+    }
   }
 }
