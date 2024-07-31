@@ -19,6 +19,8 @@ export class StockComponent {
   data: StockInfoApiResponse | null = null;
   pic: string = '';
 
+  data1: number[] | null = null;
+
   ngOnInit(): void {
     const ticker = this.route.snapshot.paramMap.get('ticker');
 
@@ -42,12 +44,14 @@ export class StockComponent {
 
     if (ticker) {
       const subscription = this.httpClient
-        .get<StockInfoApiResponse>(
-          `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/month/2023-01-09/2024-02-10?adjusted=true&sort=asc&apiKey=${environment.apiKeyPolygon}`
+        .get<{ results: { c: number }[] }>(
+          `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/2023-01-09/2024-02-10?adjusted=true&sort=asc&apiKey=${environment.apiKeyPolygon}`
         )
         .subscribe({
           next: (resData) => {
             console.log(resData);
+            this.data1 = resData.results.map((result) => result.c);
+            console.log(this.data1);
           },
         });
       this.destroyRef.onDestroy(() => {

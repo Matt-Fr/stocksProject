@@ -1,6 +1,7 @@
 <a [routerLink]="['']">Return Home</a>
-<app-graph></app-graph>
-@if (!data) {
+@if (data1 !== null) {
+<app-graph [data1]="data1"></app-graph>
+} @if (!data) {
 <h1>LOADING...</h1>
 } @else {
 <p><strong>Ticker:</strong> {{ data.results.ticker }}</p>
