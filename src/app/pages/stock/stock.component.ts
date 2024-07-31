@@ -3,11 +3,12 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment.development';
 import { StockInfoApiResponse } from '../../models/StockInfo.model';
+import { GraphComponent } from '../../components/graph/graph.component';
 
 @Component({
   selector: 'app-stock',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, GraphComponent],
   templateUrl: './stock.component.html',
   styleUrl: './stock.component.css',
 })
