@@ -1,4 +1,4 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { NgxEchartsDirective, provideEcharts } from 'ngx-echarts';
 
@@ -7,26 +7,25 @@ import { NgxEchartsDirective, provideEcharts } from 'ngx-echarts';
   standalone: true,
   imports: [NgxEchartsDirective],
   templateUrl: './graph.component.html',
-  styleUrl: './graph.component.css',
+  styleUrls: ['./graph.component.css'],
   providers: [provideEcharts()],
 })
-export class GraphComponent {
+export class GraphComponent implements OnChanges {
+  @Input() data1: number[] = [];
+  @Input() data2: number[] = [];
+  @Input() dataXaxis: number[] = [];
+
   options!: EChartsOption;
+
   constructor() {}
-  @Input() data1!: number[];
-  @Input() data2!: number[];
-  @Input() dataXaxis!: number[];
 
-  ngOnInit(): void {
-    // const data2 = [];
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data1'] || changes['data2'] || changes['dataXaxis']) {
+      this.updateOptions();
+    }
+  }
 
-    // for (let i = 0; i < 100; i++) {
-    //need to change this
-    // xAxisData.push('category' + i);
-    // data1.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
-    // data2.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5);
-    // }
-
+  private updateOptions(): void {
     this.options = {
       legend: {
         data: ['bar', 'bar2'],

@@ -1,5 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  inject,
+  signal,
+} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment.development';
 import { StockInfoApiResponse } from '../../models/StockInfo.model';
