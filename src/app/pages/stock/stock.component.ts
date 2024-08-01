@@ -19,7 +19,9 @@ export class StockComponent {
   data: StockInfoApiResponse | null = null;
   pic: string = '';
 
-  data1: number[] | null = null;
+  data1: number[] = [];
+  data2: number[] = [];
+  dataXaxis: number[] = [];
 
   ngOnInit(): void {
     const ticker = this.route.snapshot.paramMap.get('ticker');
@@ -45,13 +47,33 @@ export class StockComponent {
     if (ticker) {
       const subscription = this.httpClient
         .get<{ results: { c: number }[] }>(
-          `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/2023-01-09/2024-02-10?adjusted=true&sort=asc&apiKey=${environment.apiKeyPolygon}`
+          `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/month/2023-01-09/2024-02-10?adjusted=true&sort=asc&apiKey=${environment.apiKeyPolygon}`
         )
         .subscribe({
           next: (resData) => {
             console.log(resData);
             this.data1 = resData.results.map((result) => result.c);
             console.log(this.data1);
+            this.dataXaxis = resData.results.map((_, index) => index);
+            console.log(this.dataXaxis);
+          },
+        });
+      this.destroyRef.onDestroy(() => {
+        subscription.unsubscribe();
+      });
+    } else {
+      console.error('Ticker not found in the URL');
+    }
+
+    if (ticker) {
+      const subscription = this.httpClient
+        .get<{ results: { c: number }[] }>(
+          `https://api.polygon.io/v2/aggs/ticker/MSFT/range/1/month/2023-01-09/2024-02-10?adjusted=true&sort=asc&apiKey=${environment.apiKeyPolygon}`
+        )
+        .subscribe({
+          next: (resData) => {
+            console.log(resData);
+            this.data2 = resData.results.map((result) => result.c);
           },
         });
       this.destroyRef.onDestroy(() => {

@@ -1,6 +1,7 @@
 <a [routerLink]="['']">Return Home</a>
-@if (data1 !== null) {
-<app-graph [data1]="data1"></app-graph>
+@if (data1.length && dataXaxis.length) {
+<app-graph [data1]="data1" [data2]="data2" [dataXaxis]="dataXaxis"></app-graph>
+
 } @if (!data) {
 <h1>LOADING...</h1>
 } @else {
