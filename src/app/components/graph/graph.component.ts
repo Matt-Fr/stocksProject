@@ -14,13 +14,21 @@ export class GraphComponent implements OnChanges {
   @Input() data1: number[] = [];
   @Input() data2: number[] = [];
   @Input() dataXaxis: number[] = [];
+  @Input() dataName1: string = '';
+  @Input() dataName2: string = '';
 
   options!: EChartsOption;
 
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data1'] || changes['data2'] || changes['dataXaxis']) {
+    if (
+      changes['data1'] ||
+      changes['data2'] ||
+      changes['dataXaxis'] ||
+      changes['dataName1'] ||
+      changes['dataName2']
+    ) {
       this.updateOptions();
     }
   }
@@ -28,7 +36,7 @@ export class GraphComponent implements OnChanges {
   private updateOptions(): void {
     this.options = {
       legend: {
-        data: ['bar', 'bar2'],
+        data: [this.dataName1, this.dataName2],
         align: 'left',
       },
       tooltip: {},
@@ -42,13 +50,13 @@ export class GraphComponent implements OnChanges {
       yAxis: {},
       series: [
         {
-          name: 'bar',
+          name: this.dataName1,
           type: 'line',
           data: this.data1,
-          animationDelay: (idx) => idx * 10,
+          animationDelay: (idx) => idx * 10 + 100,
         },
         {
-          name: 'bar2',
+          name: this.dataName2,
           type: 'line',
           data: this.data2,
           animationDelay: (idx) => idx * 10 + 100,

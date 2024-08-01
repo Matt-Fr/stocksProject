@@ -1,6 +1,12 @@
 <a [routerLink]="['']">Return Home</a>
 @if (data1.length && dataXaxis.length) {
-<app-graph [data1]="data1" [data2]="data2" [dataXaxis]="dataXaxis"></app-graph>
+<app-graph
+  [data1]="data1"
+  [data2]="data2"
+  [dataXaxis]="dataXaxis"
+  [dataName1]="nameTicker1"
+  [dataName2]="nameTicker2"
+></app-graph>
 <app-search-bar (checkEnteredText)="submitInput($event)"></app-search-bar>
 } @if (!data) {
 <h1>LOADING...</h1>

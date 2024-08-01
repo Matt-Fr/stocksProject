@@ -29,7 +29,9 @@ export class StockComponent {
   enteredText = signal<string>('');
 
   data1: number[] = [];
+  nameTicker1 = '';
   data2: number[] = [];
+  nameTicker2 = '';
   dataXaxis: number[] = [];
 
   ngOnInit(): void {
@@ -55,16 +57,16 @@ export class StockComponent {
 
     if (ticker) {
       const subscription = this.httpClient
-        .get<{ results: { c: number }[] }>(
-          `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/month/2023-01-09/2024-02-10?adjusted=true&sort=asc&apiKey=${environment.apiKeyPolygon}`
+        .get<{ results: { c: number }[]; ticker: string }>(
+          `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/month/2023-01-09/2024-08-01?adjusted=true&sort=asc&apiKey=${environment.apiKeyPolygon}`
         )
         .subscribe({
           next: (resData) => {
-            console.log(resData);
             this.data1 = resData.results.map((result) => result.c);
-            console.log(this.data1);
+
+            this.nameTicker1 = resData.ticker;
+
             this.dataXaxis = resData.results.map((_, index) => index);
-            console.log(this.dataXaxis);
           },
         });
       this.destroyRef.onDestroy(() => {
@@ -81,13 +83,14 @@ export class StockComponent {
 
     if (data) {
       const subscription = this.httpClient
-        .get<{ results: { c: number }[] }>(
+        .get<{ results: { c: number }[]; ticker: string }>(
           `https://api.polygon.io/v2/aggs/ticker/${data}/range/1/month/2023-01-09/2024-02-10?adjusted=true&sort=asc&apiKey=${environment.apiKeyPolygon}`
         )
         .subscribe({
           next: (resData) => {
             this.data2 = resData.results.map((result) => result.c);
             console.log(this.data2);
+            this.nameTicker2 = resData.ticker;
           },
         });
       this.destroyRef.onDestroy(() => {
