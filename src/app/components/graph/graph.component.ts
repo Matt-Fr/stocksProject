@@ -34,6 +34,11 @@ export class GraphComponent implements OnChanges {
   }
 
   private updateOptions(): void {
+    const allData = [...this.data1, ...this.data2];
+    const minValue = Math.min(...allData);
+    const maxValue = Math.max(...allData);
+    const margin = (maxValue - minValue) * 0.2; // 10% margin
+
     this.options = {
       legend: {
         data: [this.dataName1, this.dataName2],
@@ -47,7 +52,7 @@ export class GraphComponent implements OnChanges {
           show: false,
         },
       },
-      yAxis: {},
+      yAxis: { min: minValue - margin, max: maxValue + margin },
       series: [
         {
           name: this.dataName1,

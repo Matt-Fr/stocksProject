@@ -57,17 +57,19 @@ export class StockComponent {
     }
 
     if (ticker) {
-      const subscription = this.stocksService.loadStockData(ticker).subscribe({
-        next: (resData) => {
-          console.log(resData);
+      const subscription = this.stocksService
+        .loadStockData(ticker, 'oneMonth')
+        .subscribe({
+          next: (resData) => {
+            console.log(resData);
 
-          this.data1 = resData.results.map((result) => result.c);
+            this.data1 = resData.results.map((result) => result.c);
 
-          this.nameTicker1 = resData.ticker;
+            this.nameTicker1 = resData.ticker;
 
-          this.dataXaxis = resData.results.map((_, index) => index);
-        },
-      });
+            this.dataXaxis = resData.results.map((_, index) => index);
+          },
+        });
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe();
       });
@@ -81,13 +83,15 @@ export class StockComponent {
     console.log(this.enteredText());
 
     if (data) {
-      const subscription = this.stocksService.loadStockData(data).subscribe({
-        next: (resData) => {
-          this.data2 = resData.results.map((result) => result.c);
-          console.log(this.data2);
-          this.nameTicker2 = resData.ticker;
-        },
-      });
+      const subscription = this.stocksService
+        .loadStockData(data, 'oneMonth')
+        .subscribe({
+          next: (resData) => {
+            this.data2 = resData.results.map((result) => result.c);
+            console.log(this.data2);
+            this.nameTicker2 = resData.ticker;
+          },
+        });
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe();
       });
