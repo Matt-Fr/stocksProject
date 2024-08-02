@@ -12,6 +12,7 @@ import { StockInfoApiResponse } from '../../models/StockInfo.model';
 import { GraphComponent } from '../../components/graph/graph.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { StocksService } from '../../services/stocks.service';
+type DateRange = 'oneDay' | 'fiveDays' | 'oneMonth' | 'threeMonths';
 
 @Component({
   selector: 'app-stock',
@@ -34,6 +35,7 @@ export class StockComponent {
   dataXaxis: number[] = [];
 
   stocksService = inject(StocksService);
+  duration = signal<DateRange>('threeMonths');
 
   ngOnInit(): void {
     const ticker = this.route.snapshot.paramMap.get('ticker');
@@ -58,7 +60,7 @@ export class StockComponent {
 
     if (ticker) {
       const subscription = this.stocksService
-        .loadStockData(ticker, 'oneMonth')
+        .loadStockData(ticker, this.duration())
         .subscribe({
           next: (resData) => {
             console.log(resData);
@@ -84,7 +86,7 @@ export class StockComponent {
 
     if (data) {
       const subscription = this.stocksService
-        .loadStockData(data, 'oneMonth')
+        .loadStockData(data, this.duration())
         .subscribe({
           next: (resData) => {
             this.data2 = resData.results.map((result) => result.c);

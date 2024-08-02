@@ -44,7 +44,7 @@ export class StocksService {
       case 'oneMonth':
         return `range/1/day/${this.getDateDaysBeforeInUSEast(30)}/${endDate}`;
       case 'threeMonths':
-        return `range/1/week/${this.getDateDaysBeforeInUSEast(90)}/${endDate}`;
+        return `range/1/day/${this.getDateDaysBeforeInUSEast(90)}/${endDate}`;
       default:
         throw new Error('Invalid date range');
     }
