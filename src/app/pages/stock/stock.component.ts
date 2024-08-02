@@ -11,6 +11,7 @@ import { environment } from '../../../environments/environment.development';
 import { StockInfoApiResponse } from '../../models/StockInfo.model';
 import { GraphComponent } from '../../components/graph/graph.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import { StocksService } from '../../services/stocks.service';
 
 @Component({
   selector: 'app-stock',
@@ -24,8 +25,6 @@ export class StockComponent {
   private destroyRef = inject(DestroyRef);
   private route = inject(ActivatedRoute);
   data: StockInfoApiResponse | null = null;
-  pic: string = '';
-
   enteredText = signal<string>('');
 
   data1: number[] = [];
@@ -33,6 +32,8 @@ export class StockComponent {
   data2: number[] = [];
   nameTicker2 = '';
   dataXaxis: number[] = [];
+
+  stocksService = inject(StocksService);
 
   ngOnInit(): void {
     const ticker = this.route.snapshot.paramMap.get('ticker');
@@ -56,19 +57,17 @@ export class StockComponent {
     }
 
     if (ticker) {
-      const subscription = this.httpClient
-        .get<{ results: { c: number }[]; ticker: string }>(
-          `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/month/2023-01-09/2024-08-01?adjusted=true&sort=asc&apiKey=${environment.apiKeyPolygon}`
-        )
-        .subscribe({
-          next: (resData) => {
-            this.data1 = resData.results.map((result) => result.c);
+      const subscription = this.stocksService.loadStockData(ticker).subscribe({
+        next: (resData) => {
+          console.log(resData);
 
-            this.nameTicker1 = resData.ticker;
+          this.data1 = resData.results.map((result) => result.c);
 
-            this.dataXaxis = resData.results.map((_, index) => index);
-          },
-        });
+          this.nameTicker1 = resData.ticker;
+
+          this.dataXaxis = resData.results.map((_, index) => index);
+        },
+      });
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe();
       });
@@ -82,17 +81,13 @@ export class StockComponent {
     console.log(this.enteredText());
 
     if (data) {
-      const subscription = this.httpClient
-        .get<{ results: { c: number }[]; ticker: string }>(
-          `https://api.polygon.io/v2/aggs/ticker/${data}/range/1/month/2023-01-09/2024-02-10?adjusted=true&sort=asc&apiKey=${environment.apiKeyPolygon}`
-        )
-        .subscribe({
-          next: (resData) => {
-            this.data2 = resData.results.map((result) => result.c);
-            console.log(this.data2);
-            this.nameTicker2 = resData.ticker;
-          },
-        });
+      const subscription = this.stocksService.loadStockData(data).subscribe({
+        next: (resData) => {
+          this.data2 = resData.results.map((result) => result.c);
+          console.log(this.data2);
+          this.nameTicker2 = resData.ticker;
+        },
+      });
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe();
       });
