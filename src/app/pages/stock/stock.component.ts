@@ -1,17 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import {
-  ChangeDetectorRef,
-  Component,
-  DestroyRef,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment.development';
 import { StockInfoApiResponse } from '../../models/StockInfo.model';
 import { GraphComponent } from '../../components/graph/graph.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { StocksService } from '../../services/stocks.service';
+
 type DateRange = 'oneDay' | 'fiveDays' | 'oneMonth' | 'threeMonths';
 
 @Component({
@@ -19,7 +14,7 @@ type DateRange = 'oneDay' | 'fiveDays' | 'oneMonth' | 'threeMonths';
   standalone: true,
   imports: [RouterLink, GraphComponent, SearchBarComponent],
   templateUrl: './stock.component.html',
-  styleUrl: './stock.component.css',
+  styleUrls: ['./stock.component.css'],
 })
 export class StockComponent {
   private httpClient = inject(HttpClient);
@@ -41,43 +36,50 @@ export class StockComponent {
     const ticker = this.route.snapshot.paramMap.get('ticker');
 
     if (ticker) {
-      const subscription = this.httpClient
-        .get<StockInfoApiResponse>(
-          `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=${environment.apiKeyPolygon}`
-        )
-        .subscribe({
-          next: (resData) => {
-            console.log(resData);
-            this.data = resData;
-          },
-        });
-      this.destroyRef.onDestroy(() => {
-        subscription.unsubscribe();
-      });
+      this.fetchTickerInfo(ticker);
+      this.fetchStockData(ticker, this.duration(), 'data1');
     } else {
       console.error('Ticker not found in the URL');
     }
+  }
 
-    if (ticker) {
-      const subscription = this.stocksService
-        .loadStockData(ticker, this.duration())
-        .subscribe({
-          next: (resData) => {
-            console.log(resData);
+  fetchTickerInfo(ticker: string) {
+    const subscription = this.httpClient
+      .get<StockInfoApiResponse>(
+        `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=${environment.apiKeyPolygon}`
+      )
+      .subscribe({
+        next: (resData) => {
+          console.log(resData);
+          this.data = resData;
+        },
+      });
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
+  }
 
+  fetchStockData(ticker: string, range: DateRange, target: 'data1' | 'data2') {
+    const subscription = this.stocksService
+      .loadStockData(ticker, range)
+      .subscribe({
+        next: (resData) => {
+          console.log(resData);
+
+          if (target === 'data1') {
             this.data1 = resData.results.map((result) => result.c);
-
             this.nameTicker1 = resData.ticker;
+          } else {
+            this.data2 = resData.results.map((result) => result.c);
+            this.nameTicker2 = resData.ticker;
+          }
 
-            this.dataXaxis = resData.results.map((_, index) => index);
-          },
-        });
-      this.destroyRef.onDestroy(() => {
-        subscription.unsubscribe();
+          this.dataXaxis = resData.results.map((_, index) => index);
+        },
       });
-    } else {
-      console.error('Ticker not found in the URL');
-    }
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
   }
 
   submitInput(data: string) {
@@ -85,20 +87,20 @@ export class StockComponent {
     console.log(this.enteredText());
 
     if (data) {
-      const subscription = this.stocksService
-        .loadStockData(data, this.duration())
-        .subscribe({
-          next: (resData) => {
-            this.data2 = resData.results.map((result) => result.c);
-            console.log(this.data2);
-            this.nameTicker2 = resData.ticker;
-          },
-        });
-      this.destroyRef.onDestroy(() => {
-        subscription.unsubscribe();
-      });
+      this.fetchStockData(data, this.duration(), 'data2');
     } else {
       console.error('Ticker not found in the searchbar');
+    }
+  }
+
+  updateDuration(range: DateRange) {
+    this.duration.set(range);
+    const ticker = this.route.snapshot.paramMap.get('ticker');
+    if (ticker) {
+      this.fetchStockData(ticker, range, 'data1');
+      if (this.enteredText()) {
+        this.fetchStockData(this.enteredText(), range, 'data2');
+      }
     }
   }
 }

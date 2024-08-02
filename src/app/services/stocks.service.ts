@@ -38,7 +38,7 @@ export class StocksService {
   private getRangeString(range: DateRange, endDate: string): string {
     switch (range) {
       case 'oneDay':
-        return `range/1/minute/${this.getDateDaysBeforeInUSEast(1)}/${endDate}`;
+        return `range/1/hour/${this.getDateDaysBeforeInUSEast(1)}/${endDate}`;
       case 'fiveDays':
         return `range/1/hour/${this.getDateDaysBeforeInUSEast(5)}/${endDate}`;
       case 'oneMonth':
