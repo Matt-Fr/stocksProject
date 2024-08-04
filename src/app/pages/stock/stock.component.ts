@@ -27,7 +27,7 @@ export class StockComponent {
   nameTicker1 = '';
   data2: number[] = [];
   nameTicker2 = '';
-  dataXaxis: number[] = [];
+  dataXaxis: string[] = [];
 
   stocksService = inject(StocksService);
   duration = signal<DateRange>('threeMonths');
@@ -66,6 +66,12 @@ export class StockComponent {
         next: (resData) => {
           console.log(resData);
 
+          const convertTimestampToDate = (timestamp: number): string => {
+            const date = new Date(timestamp);
+            // Format the date as needed, e.g., 'YYYY-MM-DD'
+            return date.toISOString().split('T')[0];
+          };
+
           if (target === 'data1') {
             this.data1 = resData.results.map((result) => result.c);
             this.nameTicker1 = resData.ticker;
@@ -74,7 +80,9 @@ export class StockComponent {
             this.nameTicker2 = resData.ticker;
           }
 
-          this.dataXaxis = resData.results.map((_, index) => index);
+          this.dataXaxis = resData.results.map((result) =>
+            convertTimestampToDate(result.t)
+          );
         },
       });
     this.destroyRef.onDestroy(() => {

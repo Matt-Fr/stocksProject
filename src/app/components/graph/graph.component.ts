@@ -13,7 +13,7 @@ import { NgxEchartsDirective, provideEcharts } from 'ngx-echarts';
 export class GraphComponent implements OnChanges {
   @Input() data1: number[] = [];
   @Input() data2: number[] = [];
-  @Input() dataXaxis: number[] = [];
+  @Input() dataXaxis: string[] = [];
   @Input() dataName1: string = '';
   @Input() dataName2: string = '';
 

@@ -54,7 +54,10 @@ export class StocksService {
     const endDate = this.getCurrentDateInUSEast();
     const rangeString = this.getRangeString(range, endDate);
 
-    return this.httpClient.get<{ results: { c: number }[]; ticker: string }>(
+    return this.httpClient.get<{
+      results: { c: number; t: number }[];
+      ticker: string;
+    }>(
       `https://api.polygon.io/v2/aggs/ticker/${ticker}/${rangeString}?adjusted=true&sort=asc&apiKey=${environment.apiKeyPolygon}`
     );
   }
