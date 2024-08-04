@@ -38,6 +38,8 @@ export class GraphComponent implements OnChanges {
     const minValue = Math.min(...allData);
     const maxValue = Math.max(...allData);
     const margin = (maxValue - minValue) * 0.2; // 10% margin
+    const roundedMin = Math.round(minValue - margin);
+    const roundedMax = Math.round(maxValue + margin);
 
     this.options = {
       legend: {
@@ -58,7 +60,19 @@ export class GraphComponent implements OnChanges {
           show: false,
         },
       },
-      yAxis: { min: minValue - margin, max: maxValue + margin },
+      yAxis: {
+        min: roundedMin,
+        max: roundedMax,
+        // axisLabel: {
+        //   formatter: (value: number) => {
+        //     // Hide the first and last labels
+        //     if (value === roundedMin || value === roundedMax) {
+        //       return '';
+        //     }
+        //     return value.toString();
+        //   },
+        // },
+      },
       series: [
         {
           name: this.dataName1,
