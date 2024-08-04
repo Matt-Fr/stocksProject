@@ -44,7 +44,13 @@ export class GraphComponent implements OnChanges {
         data: [this.dataName1, this.dataName2],
         align: 'left',
       },
-      tooltip: {},
+      tooltip: {
+        trigger: 'axis',
+        position: function (pt) {
+          return [pt[0], '10%'];
+        },
+      },
+
       xAxis: {
         data: this.dataXaxis,
         silent: false,
@@ -57,6 +63,7 @@ export class GraphComponent implements OnChanges {
         {
           name: this.dataName1,
           type: 'line',
+
           data: this.data1,
           animationDelay: (idx) => idx * 10 + 100,
         },
