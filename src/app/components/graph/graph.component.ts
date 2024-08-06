@@ -51,6 +51,9 @@ export class GraphComponent implements OnChanges {
         position: function (pt) {
           return [pt[0], '10%'];
         },
+        axisPointer: {
+          type: 'cross',
+        },
       },
 
       xAxis: {
