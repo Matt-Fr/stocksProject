@@ -29,6 +29,11 @@ export class StockComponent {
   nameTicker2 = '';
   dataXaxis: string[] = [];
 
+  articleImgUrl = signal('');
+  articleTitle = signal('');
+  articleDescription = signal('');
+  dataArticle = signal({});
+
   stocksService = inject(StocksService);
   duration = signal<DateRange>('threeMonths');
 
@@ -38,6 +43,7 @@ export class StockComponent {
     if (ticker) {
       this.fetchTickerInfo(ticker);
       this.fetchStockData(ticker, this.duration(), 'data1');
+      this.fetchNewsArticle(ticker);
     } else {
       console.error('Ticker not found in the URL');
     }
@@ -110,5 +116,21 @@ export class StockComponent {
         this.fetchStockData(this.enteredText(), range, 'data2');
       }
     }
+  }
+  // create an interface
+  fetchNewsArticle(ticker: string) {
+    const subscription = this.httpClient
+      .get<{ data: Array<{ title: string }> }>(
+        `https://api.marketaux.com/v1/news/all?symbols=${ticker}&filter_entities=true&language=en&page=1&api_token=${environment.apiKeyTickerNews}`
+      )
+      .subscribe({
+        next: (resData) => {
+          this.dataArticle.set(resData.data);
+          console.log(this.dataArticle());
+        },
+      });
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
   }
 }
