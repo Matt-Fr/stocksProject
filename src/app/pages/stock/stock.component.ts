@@ -6,6 +6,7 @@ import { StockInfoApiResponse } from '../../models/StockInfo.model';
 import { GraphComponent } from '../../components/graph/graph.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { StocksService } from '../../services/stocks.service';
+import { ArticleNews } from '../../models/ArticleNews.model';
 
 type DateRange = 'oneDay' | 'fiveDays' | 'oneMonth' | 'threeMonths';
 
@@ -22,20 +23,14 @@ export class StockComponent {
   private route = inject(ActivatedRoute);
   data: StockInfoApiResponse | null = null;
   enteredText = signal<string>('');
-
   data1: number[] = [];
   nameTicker1 = '';
   data2: number[] = [];
   nameTicker2 = '';
   dataXaxis: string[] = [];
-
-  articleImgUrl = signal('');
-  articleTitle = signal('');
-  articleDescription = signal('');
-  dataArticle = signal({});
-
   stocksService = inject(StocksService);
   duration = signal<DateRange>('threeMonths');
+  dataArticle = signal<ArticleNews[]>([]);
 
   ngOnInit(): void {
     const ticker = this.route.snapshot.paramMap.get('ticker');
@@ -120,7 +115,7 @@ export class StockComponent {
   // create an interface
   fetchNewsArticle(ticker: string) {
     const subscription = this.httpClient
-      .get<{ data: Array<{ title: string }> }>(
+      .get<any>(
         `https://api.marketaux.com/v1/news/all?symbols=${ticker}&filter_entities=true&language=en&page=1&api_token=${environment.apiKeyTickerNews}`
       )
       .subscribe({

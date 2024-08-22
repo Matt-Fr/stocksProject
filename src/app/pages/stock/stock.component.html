@@ -25,4 +25,6 @@
     data.results.homepage_url
   }}</a>
 </p>
-}
+} @if (dataArticle().length) { @for (item of dataArticle(); track $index) {
+<p>{{ item.title }}</p>
+}}
