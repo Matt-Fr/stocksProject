@@ -1,0 +1,10 @@
+article {
+  width: 1000px;
+  height: 700px;
+  border: 1px solid black;
+}
+img {
+  width: 200px;
+  height: 200px;
+  object-fit: "cover";
+}

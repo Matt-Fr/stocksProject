@@ -7,13 +7,19 @@ import { GraphComponent } from '../../components/graph/graph.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { StocksService } from '../../services/stocks.service';
 import { ArticleNews } from '../../models/ArticleNews.model';
+import { ThumbnailArticleComponent } from '../../components/thumbnail-article/thumbnail-article.component';
 
 type DateRange = 'oneDay' | 'fiveDays' | 'oneMonth' | 'threeMonths';
 
 @Component({
   selector: 'app-stock',
   standalone: true,
-  imports: [RouterLink, GraphComponent, SearchBarComponent],
+  imports: [
+    RouterLink,
+    GraphComponent,
+    SearchBarComponent,
+    ThumbnailArticleComponent,
+  ],
   templateUrl: './stock.component.html',
   styleUrls: ['./stock.component.css'],
 })

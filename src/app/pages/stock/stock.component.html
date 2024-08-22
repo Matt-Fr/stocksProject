@@ -26,5 +26,9 @@
   }}</a>
 </p>
 } @if (dataArticle().length) { @for (item of dataArticle(); track $index) {
-<p>{{ item.title }}</p>
+<app-thumbnail-article
+  [title]="item.title"
+  [imageUrl]="item.image_url"
+  [url]="item.url"
+></app-thumbnail-article>
 }}
