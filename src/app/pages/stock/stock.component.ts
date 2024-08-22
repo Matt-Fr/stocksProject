@@ -6,7 +6,7 @@ import { StockInfoApiResponse } from '../../models/StockInfo.model';
 import { GraphComponent } from '../../components/graph/graph.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { StocksService } from '../../services/stocks.service';
-import { ArticleNews } from '../../models/ArticleNews.model';
+import { ArticleNews, HomeNewsarticle } from '../../models/ArticleNews.model';
 import { ThumbnailArticleComponent } from '../../components/thumbnail-article/thumbnail-article.component';
 
 type DateRange = 'oneDay' | 'fiveDays' | 'oneMonth' | 'threeMonths';
@@ -121,7 +121,7 @@ export class StockComponent {
   // create an interface
   fetchNewsArticle(ticker: string) {
     const subscription = this.httpClient
-      .get<any>(
+      .get<{ data: ArticleNews[] }>(
         `https://api.marketaux.com/v1/news/all?symbols=${ticker}&filter_entities=true&language=en&page=1&api_token=${environment.apiKeyTickerNews}`
       )
       .subscribe({

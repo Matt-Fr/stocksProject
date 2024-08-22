@@ -8,3 +8,10 @@
   <a [routerLink]="['/MSFT']">Microsoft</a>
   <a [routerLink]="['/TSLA']">Tesla</a>
 </div>
+@if (dataNews().length) { @for (item of dataNews(); track $index) {
+<app-thumbnail-article
+  [title]="item.title"
+  [imageUrl]="item.urlToImage"
+  [url]="item.url"
+/>
+} }

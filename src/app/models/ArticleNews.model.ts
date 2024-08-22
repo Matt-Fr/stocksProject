@@ -4,3 +4,10 @@ export interface ArticleNews {
   url: string;
   image_url: string;
 }
+
+export interface HomeNewsarticle {
+  title: string;
+  description: string;
+  url: string;
+  urlToImage: string;
+}
