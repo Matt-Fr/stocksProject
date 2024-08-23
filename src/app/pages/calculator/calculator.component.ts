@@ -1,22 +1,22 @@
 import { Component, signal } from '@angular/core';
 import { CalculatorInputComponent } from '../../components/calculator-input/calculator-input.component';
+import {
+  calculatorInput,
+  calculatorResult,
+} from '../../models/CalculatorInput.model';
+import { CalculatorResultTableComponent } from '../../components/calculator-result-table/calculator-result-table.component';
 
 @Component({
   selector: 'app-calculator',
   standalone: true,
-  imports: [CalculatorInputComponent],
+  imports: [CalculatorInputComponent, CalculatorResultTableComponent],
   templateUrl: './calculator.component.html',
   styleUrl: './calculator.component.css',
 })
 export class CalculatorComponent {
-  calculatedData = signal({});
+  calculatedData = signal<calculatorResult[] | undefined>(undefined);
 
-  onCalculateResults(data: {
-    initialInvestment: number;
-    duration: number;
-    expectedReturn: number;
-    annualInvestment: number;
-  }) {
+  onCalculateResults(data: calculatorInput) {
     const { initialInvestment, duration, expectedReturn, annualInvestment } =
       data;
     let investmentValue = initialInvestment;

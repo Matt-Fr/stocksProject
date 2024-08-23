@@ -1,5 +1,6 @@
 import { Component, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { calculatorInput } from '../../models/CalculatorInput.model';
 
 @Component({
   selector: 'app-calculator-input',
@@ -9,12 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './calculator-input.component.css',
 })
 export class CalculatorInputComponent {
-  calculateEvent = output<{
-    initialInvestment: number;
-    duration: number;
-    expectedReturn: number;
-    annualInvestment: number;
-  }>();
+  calculateEvent = output<calculatorInput>();
 
   inputInitialInvestment = signal(0);
   inputAnnualInvestment = signal(0);
