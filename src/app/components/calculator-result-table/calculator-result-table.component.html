@@ -1,8 +1,8 @@
-@if (!calculatedDataInput()) {
+@if (!calculatedDataInput) {
 <p>Please, enter some values and press "Calculate"</p>
 } @else {
-<table>
-  <thead>
+<p-table [value]="calculatedDataInput">
+  <ng-template pTemplate="header">
     <tr>
       <th>Year</th>
       <th>Investment Value</th>
@@ -10,9 +10,8 @@
       <th>Total Interest</th>
       <th>Invested Capital</th>
     </tr>
-  </thead>
-  <tbody>
-    @for (result of calculatedDataInput(); track result.year) {
+  </ng-template>
+  <ng-template pTemplate="body" let-result>
     <tr>
       <td>{{ result.year | currency }}</td>
       <td>{{ result.valueEndOfYear | currency }}</td>
@@ -20,7 +19,6 @@
       <td>{{ result.totalInterest | currency }}</td>
       <td>{{ result.totalAmountInvested | currency }}</td>
     </tr>
-    }
-  </tbody>
-</table>
+  </ng-template>
+</p-table>
 }
