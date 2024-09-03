@@ -1,11 +1,12 @@
-<p>search-bar works!</p>
-<form (ngSubmit)="onSubmit()">
-  <label for="search-bar"></label>
-  <input
-    type="text"
-    id="search-bar"
-    [(ngModel)]="enteredText"
-    name="searchValue"
-  />
-  <button type="submit">Submit</button>
+<form class="card flex flex-column md:flex-row gap-3" (ngSubmit)="onSubmit()">
+  <p-inputGroup>
+    <input
+      type="text"
+      pInputText
+      placeholder="Search a ticker"
+      [value]="enteredText()"
+      (input)="onInputChange($event)"
+    />
+    <button type="submit" pButton icon="pi pi-search"></button>
+  </p-inputGroup>
 </form>
