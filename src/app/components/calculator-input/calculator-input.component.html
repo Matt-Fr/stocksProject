@@ -1,43 +1,124 @@
-<form (ngSubmit)="onSubmit()">
-  <div>
-    <p>
-      <label for="initial-investment">Initial Investment</label>
-      <input
-        id="initial-investment"
-        name="initial-investment"
-        type="number"
-        [(ngModel)]="inputInitialInvestment"
-      />
-    </p>
-    <p>
-      <label for="annual-investment">Annual Investment</label>
-      <input
-        id="annual-investment"
-        name="annual-investment"
-        type="number"
-        [(ngModel)]="inputAnnualInvestment"
-      />
-    </p>
-    <p>
-      <label for="expected-return">Expected Return</label>
-      <input
-        id="expected-return"
-        name="expected-return"
-        type="number"
-        [(ngModel)]="inputExpectedReturn"
-      />
-    </p>
-    <p>
-      <label for="duration">Duration</label>
-      <input
-        id="duration"
-        name="duration"
-        type="number"
-        [(ngModel)]="inputDuration"
-      />
-    </p>
-    <p>
-      <button>Calculate</button>
-    </p>
+<form (ngSubmit)="onSubmit()" class="investment-form">
+  <div class="form-grid">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="initial-investment">Initial Investment</label>
+        <p-inputNumber
+          id="initial-investment"
+          inputId="integeronly"
+          name="initial-investment"
+          type="number"
+          [(ngModel)]="inputInitialInvestment"
+          mode="currency"
+          currency="USD"
+          locale="en-US"
+          class="input-number"
+          minFractionDigits="0"
+          maxFractionDigits="0"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="annual-investment">Annual Investment</label>
+        <p-inputNumber
+          id="annual-investment"
+          name="annual-investment"
+          type="number"
+          [(ngModel)]="inputAnnualInvestment"
+          mode="currency"
+          currency="USD"
+          locale="en-US"
+          class="input-number"
+          minFractionDigits="0"
+          maxFractionDigits="0"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="expected-return">Expected Return (%)</label>
+        <p-inputNumber
+          id="expected-return"
+          name="expected-return"
+          type="number"
+          [(ngModel)]="inputExpectedReturn"
+          suffix="%"
+          minFractionDigits="0"
+          maxFractionDigits="0"
+          class="input-number"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="duration">Duration (Years)</label>
+        <p-inputNumber
+          id="duration"
+          name="duration"
+          type="number"
+          [(ngModel)]="inputDuration"
+          min="1"
+          max="50"
+          suffix=" years"
+          minFractionDigits="0"
+          maxFractionDigits="0"
+          class="input-number"
+        />
+      </div>
+    </div>
+    <div class="form-row form-submit">
+      <button
+        pButton
+        type="submit"
+        label="Calculate"
+        class="p-button-raised p-button-primary"
+      ></button>
+    </div>
   </div>
 </form>
+
+<style>
+  .investment-form {
+    max-width: 600px;
+    margin: auto;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .form-row {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+
+  .input-number {
+    width: 100%;
+  }
+
+  .form-submit {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  button[pButton] {
+    margin-top: 1rem;
+  }
+</style>

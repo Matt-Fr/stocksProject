@@ -1,11 +1,13 @@
 import { Component, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { calculatorInput } from '../../models/CalculatorInput.model';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-calculator-input',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, InputNumberModule, ButtonModule],
   templateUrl: './calculator-input.component.html',
   styleUrl: './calculator-input.component.css',
 })
