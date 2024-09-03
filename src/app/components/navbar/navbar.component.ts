@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 
@@ -7,9 +8,10 @@ import { MenubarModule } from 'primeng/menubar';
   standalone: true,
   imports: [MenubarModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css',
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
+  private router = inject(Router);
   items: MenuItem[] | undefined;
 
   ngOnInit() {
@@ -17,10 +19,16 @@ export class NavbarComponent {
       {
         label: 'Home',
         icon: 'pi pi-home',
+        command: () => {
+          this.router.navigate(['/']);
+        },
       },
       {
-        label: 'Features',
-        icon: 'pi pi-star',
+        label: 'investment calculator',
+        icon: 'pi pi-calculator',
+        command: () => {
+          this.router.navigate(['/calculator']);
+        },
       },
       {
         label: 'Projects',
