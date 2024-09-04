@@ -2,13 +2,17 @@
 (searchBarError) {
 <p>THIS TICKER DOES NOT EXIST</p>
 }
-<div>
-  <app-button-save-link [url]="'/GOOG'" [text]="'GOOG'"></app-button-save-link>
-  <a [routerLink]="['/GOOG']">Google</a>
-  <a [routerLink]="['/SPY']">S&P500</a>
-  <a [routerLink]="['/MSFT']">Microsoft</a>
-  <a [routerLink]="['/TSLA']">Tesla</a>
-</div>
+
+<p-card
+  header="Most important US stocks"
+  [style]="{ marginTop: '1rem', marginBottom: '1rem' }"
+>
+  <div class="tickers-container">
+    @for (item of tickers; track $index) {
+    <app-button-save-link [url]="item" [text]="item"></app-button-save-link>
+    }
+  </div>
+</p-card>
 
 <h2>News related to finance</h2>
 <div class="containerNews">

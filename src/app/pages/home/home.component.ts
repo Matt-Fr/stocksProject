@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment.development';
 import { HomeNewsarticle } from '../../models/ArticleNews.model';
 import { ThumbnailArticleComponent } from '../../components/thumbnail-article/thumbnail-article.component';
 import { ButtonSaveLinkComponent } from '../../components/buttons/button-save-link/button-save-link.component';
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +16,7 @@ import { ButtonSaveLinkComponent } from '../../components/buttons/button-save-li
     SearchBarComponent,
     ThumbnailArticleComponent,
     ButtonSaveLinkComponent,
+    CardModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -26,6 +28,29 @@ export class HomeComponent {
   enteredText = signal<string>('');
   searchBarError = false;
   constructor(private router: Router) {}
+
+  tickers = [
+    'AAPL',
+    'MSFT',
+    'GOOGL',
+    'AMZN',
+    'NVDA',
+    'TSLA',
+    'META',
+    'BRK.B',
+    'V',
+    'UNH',
+    'LLY',
+    'JNJ',
+    'JPM',
+    'XOM',
+    'WMT',
+    'MA',
+    'PG',
+    'AVGO',
+    'ORCL',
+    'KO',
+  ];
 
   ngOnInit(): void {
     this.fetchNews();
