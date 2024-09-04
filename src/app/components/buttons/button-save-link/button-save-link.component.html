@@ -1,0 +1,14 @@
+<a
+  pButton
+  href="{{ url() }}"
+  severity="secondary"
+  class="p-button btn-border-right-none"
+>
+  {{ text() }}
+</a>
+<button
+  pButton
+  class="btn-border-left-none"
+  [icon]="checked ? 'pi pi-heart-fill' : 'pi pi-heart'"
+  (click)="checked = !checked"
+></button>

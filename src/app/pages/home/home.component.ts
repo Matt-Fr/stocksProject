@@ -5,11 +5,17 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { HomeNewsarticle } from '../../models/ArticleNews.model';
 import { ThumbnailArticleComponent } from '../../components/thumbnail-article/thumbnail-article.component';
+import { ButtonSaveLinkComponent } from '../../components/buttons/button-save-link/button-save-link.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, SearchBarComponent, ThumbnailArticleComponent],
+  imports: [
+    RouterLink,
+    SearchBarComponent,
+    ThumbnailArticleComponent,
+    ButtonSaveLinkComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
