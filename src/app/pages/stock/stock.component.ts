@@ -8,6 +8,8 @@ import { SearchBarComponent } from '../../components/search-bar/search-bar.compo
 import { StocksService } from '../../services/stocks.service';
 import { ArticleNews, HomeNewsarticle } from '../../models/ArticleNews.model';
 import { ThumbnailArticleComponent } from '../../components/thumbnail-article/thumbnail-article.component';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { MenuItem } from 'primeng/api';
 
 type DateRange = 'oneDay' | 'fiveDays' | 'oneMonth' | 'threeMonths';
 
@@ -19,6 +21,7 @@ type DateRange = 'oneDay' | 'fiveDays' | 'oneMonth' | 'threeMonths';
     GraphComponent,
     SearchBarComponent,
     ThumbnailArticleComponent,
+    TabMenuModule,
   ],
   templateUrl: './stock.component.html',
   styleUrls: ['./stock.component.css'],
@@ -37,9 +40,35 @@ export class StockComponent {
   stocksService = inject(StocksService);
   duration = signal<DateRange>('threeMonths');
   dataArticle = signal<ArticleNews[]>([]);
+  items: MenuItem[] | undefined;
+  activeItem: MenuItem | undefined;
 
   ngOnInit(): void {
     const ticker = this.route.snapshot.paramMap.get('ticker');
+    this.items = [
+      {
+        label: '1 Day',
+        icon: 'pi pi-calendar',
+        command: () => this.updateDuration('oneDay'),
+      },
+      {
+        label: '5 Days',
+        icon: 'pi pi-calendar',
+        command: () => this.updateDuration('fiveDays'),
+      },
+      {
+        label: '1 Month',
+        icon: 'pi pi-calendar',
+        command: () => this.updateDuration('oneMonth'),
+      },
+      {
+        label: '3 Months',
+        icon: 'pi pi-calendar',
+        command: () => this.updateDuration('threeMonths'),
+      },
+    ];
+
+    this.activeItem = this.items[3];
 
     if (ticker) {
       this.fetchTickerInfo(ticker);
