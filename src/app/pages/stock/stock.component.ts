@@ -11,7 +11,14 @@ import { ThumbnailArticleComponent } from '../../components/thumbnail-article/th
 import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuItem } from 'primeng/api';
 
-type DateRange = 'oneDay' | 'fiveDays' | 'oneMonth' | 'threeMonths';
+type DateRange =
+  | 'oneDay'
+  | 'fiveDays'
+  | 'oneMonth'
+  | 'threeMonths'
+  | 'sixMonths'
+  | 'oneYear'
+  | 'fiveYears';
 
 @Component({
   selector: 'app-stock',

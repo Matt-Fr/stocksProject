@@ -3,7 +3,14 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { catchError, Observable, throwError } from 'rxjs';
 
-type DateRange = 'oneDay' | 'fiveDays' | 'oneMonth' | 'threeMonths';
+type DateRange =
+  | 'oneDay'
+  | 'fiveDays'
+  | 'oneMonth'
+  | 'threeMonths'
+  | 'sixMonths'
+  | 'oneYear'
+  | 'fiveYears';
 
 @Injectable({
   providedIn: 'root',
@@ -59,6 +66,14 @@ export class StocksService {
         return `range/1/day/${this.getDateDaysBeforeInUSEast(30)}/${endDate}`;
       case 'threeMonths':
         return `range/1/day/${this.getDateDaysBeforeInUSEast(90)}/${endDate}`;
+      case 'sixMonths':
+        return `range/1/day/${this.getDateDaysBeforeInUSEast(180)}/${endDate}`;
+      case 'oneYear':
+        return `range/1/day/${this.getDateDaysBeforeInUSEast(365)}/${endDate}`;
+      case 'fiveYears':
+        return `range/1/week/${this.getDateDaysBeforeInUSEast(
+          1825
+        )}/${endDate}`;
       default:
         throw new Error('Invalid date range');
     }

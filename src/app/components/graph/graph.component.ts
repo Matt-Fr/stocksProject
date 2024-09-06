@@ -11,7 +11,14 @@ import { NgxEchartsDirective, provideEcharts } from 'ngx-echarts';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuItem } from 'primeng/api';
 
-type DateRange = 'oneDay' | 'fiveDays' | 'oneMonth' | 'threeMonths';
+type DateRange =
+  | 'oneDay'
+  | 'fiveDays'
+  | 'oneMonth'
+  | 'threeMonths'
+  | 'sixMonths'
+  | 'oneYear'
+  | 'fiveYears';
 
 @Component({
   selector: 'app-graph',
@@ -39,7 +46,7 @@ export class GraphComponent implements OnChanges {
       {
         label: '1 Day',
         icon: 'pi pi-calendar',
-        command: () => this.selectDuration('oneDay'), // <-- Trigger event
+        command: () => this.selectDuration('oneDay'),
       },
       {
         label: '5 Days',
@@ -56,8 +63,24 @@ export class GraphComponent implements OnChanges {
         icon: 'pi pi-calendar',
         command: () => this.selectDuration('threeMonths'),
       },
+      {
+        label: '6 Months',
+        icon: 'pi pi-calendar',
+        command: () => this.selectDuration('sixMonths'),
+      },
+      {
+        label: '1 Year',
+        icon: 'pi pi-calendar',
+        command: () => this.selectDuration('oneYear'),
+      },
+      {
+        label: '5 Years',
+        icon: 'pi pi-calendar',
+        command: () => this.selectDuration('fiveYears'),
+      },
     ];
-    this.activeItem = this.items[3];
+
+    this.activeItem = this.items[3]; // Set default active item (e.g., 3 Months)
   }
 
   selectDuration(range: DateRange): void {
