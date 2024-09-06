@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  HostListener,
   Input,
   OnChanges,
   Output,
@@ -36,56 +37,57 @@ export class GraphComponent implements OnChanges {
   @Input() dataName2: string = '';
   @Output() durationChanged = new EventEmitter<DateRange>();
 
-  items: MenuItem[] | undefined;
+  items: MenuItem[] = [];
   activeItem: MenuItem | undefined;
 
   options!: EChartsOption;
 
-  ngOnInit(): void {
-    this.items = [
-      {
-        label: '1 Day',
-        icon: 'pi pi-calendar',
-        command: () => this.selectDuration('oneDay'),
-      },
-      {
-        label: '5 Days',
-        icon: 'pi pi-calendar',
-        command: () => this.selectDuration('fiveDays'),
-      },
-      {
-        label: '1 Month',
-        icon: 'pi pi-calendar',
-        command: () => this.selectDuration('oneMonth'),
-      },
-      {
-        label: '3 Months',
-        icon: 'pi pi-calendar',
-        command: () => this.selectDuration('threeMonths'),
-      },
-      {
-        label: '6 Months',
-        icon: 'pi pi-calendar',
-        command: () => this.selectDuration('sixMonths'),
-      },
-      {
-        label: '1 Year',
-        icon: 'pi pi-calendar',
-        command: () => this.selectDuration('oneYear'),
-      },
-      {
-        label: '5 Years',
-        icon: 'pi pi-calendar',
-        command: () => this.selectDuration('fiveYears'),
-      },
-    ];
+  // Add a listener to detect window resizing
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.setMenuItems();
+  }
 
-    this.activeItem = this.items[3]; // Set default active item (e.g., 3 Months)
+  ngOnInit(): void {
+    this.setMenuItems();
+  }
+
+  setMenuItems(): void {
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth <= 768) {
+      // For mobile screens (width <= 768px)
+      this.items = [
+        { label: '1D', command: () => this.selectDuration('oneDay') },
+        { label: '5D', command: () => this.selectDuration('fiveDays') },
+        { label: '1M', command: () => this.selectDuration('oneMonth') },
+        {
+          label: '3M',
+          command: () => this.selectDuration('threeMonths'),
+        },
+      ];
+    } else {
+      // For larger screens
+      this.items = [
+        { label: '1 Day', command: () => this.selectDuration('oneDay') },
+        { label: '5 Days', command: () => this.selectDuration('fiveDays') },
+        { label: '1 Month', command: () => this.selectDuration('oneMonth') },
+        {
+          label: '3 Months',
+          command: () => this.selectDuration('threeMonths'),
+        },
+        { label: '6 Months', command: () => this.selectDuration('sixMonths') },
+        { label: '1 Year', command: () => this.selectDuration('oneYear') },
+        { label: '5 Years', command: () => this.selectDuration('fiveYears') },
+      ];
+    }
+
+    this.activeItem = this.items[3]; // Set default active item (e.g., 1 Day for mobile)
   }
 
   selectDuration(range: DateRange): void {
-    this.activeItem = this.items?.find((item) => item.label === range);
-    this.durationChanged.emit(range); // <-- Emit the selected range
+    this.activeItem = this.items.find((item) => item.label === range);
+    this.durationChanged.emit(range); // Emit the selected range
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -104,50 +106,29 @@ export class GraphComponent implements OnChanges {
     const allData = [...this.data1, ...this.data2];
     const minValue = Math.min(...allData);
     const maxValue = Math.max(...allData);
-    const margin = (maxValue - minValue) * 0.2; // 10% margin
+    const margin = (maxValue - minValue) * 0.2;
     const roundedMin = Math.round(minValue - margin);
     const roundedMax = Math.round(maxValue + margin);
 
     this.options = {
-      legend: {
-        data: [this.dataName1, this.dataName2],
-        align: 'left',
-      },
+      legend: { data: [this.dataName1, this.dataName2], align: 'left' },
       tooltip: {
         trigger: 'axis',
         position: function (pt) {
           return [pt[0], '10%'];
         },
-        axisPointer: {
-          type: 'cross',
-        },
+        axisPointer: { type: 'cross' },
       },
-
       xAxis: {
         data: this.dataXaxis,
         silent: false,
-        splitLine: {
-          show: false,
-        },
+        splitLine: { show: false },
       },
-      yAxis: {
-        min: roundedMin,
-        max: roundedMax,
-        // axisLabel: {
-        //   formatter: (value: number) => {
-        //     // Hide the first and last labels
-        //     if (value === roundedMin || value === roundedMax) {
-        //       return '';
-        //     }
-        //     return value.toString();
-        //   },
-        // },
-      },
+      yAxis: { min: roundedMin, max: roundedMax },
       series: [
         {
           name: this.dataName1,
           type: 'line',
-
           data: this.data1,
           animationDelay: (idx) => idx * 10 + 100,
         },
