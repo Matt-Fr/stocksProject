@@ -45,30 +45,6 @@ export class StockComponent {
 
   ngOnInit(): void {
     const ticker = this.route.snapshot.paramMap.get('ticker');
-    this.items = [
-      {
-        label: '1 Day',
-        icon: 'pi pi-calendar',
-        command: () => this.updateDuration('oneDay'),
-      },
-      {
-        label: '5 Days',
-        icon: 'pi pi-calendar',
-        command: () => this.updateDuration('fiveDays'),
-      },
-      {
-        label: '1 Month',
-        icon: 'pi pi-calendar',
-        command: () => this.updateDuration('oneMonth'),
-      },
-      {
-        label: '3 Months',
-        icon: 'pi pi-calendar',
-        command: () => this.updateDuration('threeMonths'),
-      },
-    ];
-
-    this.activeItem = this.items[3];
 
     if (ticker) {
       this.fetchTickerInfo(ticker);
@@ -93,6 +69,10 @@ export class StockComponent {
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
+  }
+
+  onDurationChanged(range: DateRange) {
+    this.updateDuration(range);
   }
 
   fetchStockData(ticker: string, range: DateRange, target: 'data1' | 'data2') {

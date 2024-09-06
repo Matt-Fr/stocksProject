@@ -5,14 +5,9 @@
   [dataXaxis]="dataXaxis"
   [dataName1]="nameTicker1"
   [dataName2]="nameTicker2"
+  (durationChanged)="onDurationChanged($event)"
 ></app-graph>
-<button (click)="updateDuration('oneDay')">1 Day</button>
-<button (click)="updateDuration('fiveDays')">5 Days</button>
-<button (click)="updateDuration('oneMonth')">1 Month</button>
-<button (click)="updateDuration('threeMonths')">3 Months</button>
-<div class="card">
-  <p-tabMenu [model]="items" [(activeItem)]="activeItem" />
-</div>
+
 <app-search-bar (checkEnteredText)="submitInput($event)"></app-search-bar>
 } @if (!data) {
 <h1>LOADING...</h1>

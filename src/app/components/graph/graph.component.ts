@@ -1,11 +1,22 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { NgxEchartsDirective, provideEcharts } from 'ngx-echarts';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { MenuItem } from 'primeng/api';
+
+type DateRange = 'oneDay' | 'fiveDays' | 'oneMonth' | 'threeMonths';
 
 @Component({
   selector: 'app-graph',
   standalone: true,
-  imports: [NgxEchartsDirective],
+  imports: [NgxEchartsDirective, TabMenuModule],
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.css'],
   providers: [provideEcharts()],
@@ -16,10 +27,43 @@ export class GraphComponent implements OnChanges {
   @Input() dataXaxis: string[] = [];
   @Input() dataName1: string = '';
   @Input() dataName2: string = '';
+  @Output() durationChanged = new EventEmitter<DateRange>();
+
+  items: MenuItem[] | undefined;
+  activeItem: MenuItem | undefined;
 
   options!: EChartsOption;
 
-  constructor() {}
+  ngOnInit(): void {
+    this.items = [
+      {
+        label: '1 Day',
+        icon: 'pi pi-calendar',
+        command: () => this.selectDuration('oneDay'), // <-- Trigger event
+      },
+      {
+        label: '5 Days',
+        icon: 'pi pi-calendar',
+        command: () => this.selectDuration('fiveDays'),
+      },
+      {
+        label: '1 Month',
+        icon: 'pi pi-calendar',
+        command: () => this.selectDuration('oneMonth'),
+      },
+      {
+        label: '3 Months',
+        icon: 'pi pi-calendar',
+        command: () => this.selectDuration('threeMonths'),
+      },
+    ];
+    this.activeItem = this.items[3];
+  }
+
+  selectDuration(range: DateRange): void {
+    this.activeItem = this.items?.find((item) => item.label === range);
+    this.durationChanged.emit(range); // <-- Emit the selected range
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
