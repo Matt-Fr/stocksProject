@@ -2,6 +2,11 @@ a {
   text-decoration: none;
 }
 img {
+  position: absolute;
   object-fit: cover;
-  height: auto;
+}
+
+.img-container {
+  position: relative;
+  height: 12rem;
 }

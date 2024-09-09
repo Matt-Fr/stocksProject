@@ -1,7 +1,9 @@
 <a class="card flex justify-content-center" href="{{ url() }}" target="_blank">
   <p-card header="{{ title() }}" [style]="{ width: '360px' }">
     <ng-template pTemplate="header">
-      <img alt="Card" ngSrc="{{ imageUrl() }}" width="300" height="200" />
+      <div class="img-container">
+        <img alt="Card" ngSrc="{{ imageUrl() }}" fill class="img" />
+      </div>
     </ng-template>
     <p>{{ description() }}</p>
     <ng-template pTemplate="footer">
