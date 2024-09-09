@@ -27,7 +27,7 @@ export class HomeComponent {
   dataNews = signal<HomeNewsarticle[]>([]);
   enteredText = signal<string>('');
   searchBarError = false;
-  constructor(private router: Router) {}
+  private router = inject(Router);
 
   tickers = [
     'AAPL',

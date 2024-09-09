@@ -1,29 +1,37 @@
 @if (data1.length && dataXaxis.length) {
-<app-graph
-  class="graphComponent"
-  [data1]="data1"
-  [data2]="data2"
-  [dataXaxis]="dataXaxis"
-  [dataName1]="nameTicker1"
-  [dataName2]="nameTicker2"
-  (durationChanged)="onDurationChanged($event)"
-></app-graph>
+<p-card>
+  <app-graph
+    class="graphComponent"
+    [data1]="data1"
+    [data2]="data2"
+    [dataXaxis]="dataXaxis"
+    [dataName1]="nameTicker1"
+    [dataName2]="nameTicker2"
+    (durationChanged)="onDurationChanged($event)"
+  ></app-graph
+></p-card>
+<p-card>
+  <app-search-bar (checkEnteredText)="submitInput($event)"></app-search-bar
+></p-card>
+}
+<p-card>
+  @if (!data) {
+  <h1>LOADING...</h1>
+  } @else {
+  <p><strong>Name:</strong> {{ data.results.name }}</p>
+  <p><strong>Ticker:</strong> {{ data.results.ticker }}</p>
+  <p><strong>Market:</strong> {{ data.results.market }}</p>
+  <p><strong>Description:</strong> {{ data.results.description }}</p>
+  <p>
+    <strong>Homepage:</strong>
+    <a [href]="data.results.homepage_url" target="_blank">{{
+      data.results.homepage_url
+    }}</a>
+  </p>
 
-<app-search-bar (checkEnteredText)="submitInput($event)"></app-search-bar>
-} @if (!data) {
-<h1>LOADING...</h1>
-} @else {
-<p><strong>Name:</strong> {{ data.results.name }}</p>
-<p><strong>Ticker:</strong> {{ data.results.ticker }}</p>
-<p><strong>Market:</strong> {{ data.results.market }}</p>
-<p><strong>Description:</strong> {{ data.results.description }}</p>
-<p>
-  <strong>Homepage:</strong>
-  <a [href]="data.results.homepage_url" target="_blank">{{
-    data.results.homepage_url
-  }}</a>
-</p>
-} @if (dataArticle().length) {
+  }</p-card
+>
+@if (dataArticle().length) {
 <div class="containerNews">
   @for (item of dataArticle(); track $index) {
   <app-thumbnail-article

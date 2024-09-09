@@ -10,6 +10,7 @@ import { ArticleNews, HomeNewsarticle } from '../../models/ArticleNews.model';
 import { ThumbnailArticleComponent } from '../../components/thumbnail-article/thumbnail-article.component';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuItem } from 'primeng/api';
+import { CardModule } from 'primeng/card';
 
 type DateRange =
   | 'oneDay'
@@ -29,6 +30,7 @@ type DateRange =
     SearchBarComponent,
     ThumbnailArticleComponent,
     TabMenuModule,
+    CardModule,
   ],
   templateUrl: './stock.component.html',
   styleUrls: ['./stock.component.css'],
