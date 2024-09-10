@@ -1,8 +1,9 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { MenuItem } from 'primeng/api';
+import { FavoriteTickersService } from '../../services/favorite-tickers.service';
 import { MenubarModule } from 'primeng/menubar';
-import { FavoriteTickersService } from '../../services/favorite-tickers.service'; // Import the service
 
 @Component({
   selector: 'app-navbar',
@@ -11,18 +12,23 @@ import { FavoriteTickersService } from '../../services/favorite-tickers.service'
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private favoriteTickersService = inject(FavoriteTickersService); // Inject the service
-  items = signal<MenuItem[]>([]); // Correct signal type for MenuItem[]
+  items: MenuItem[] = []; // MenuItem array for the menu
+  private subscription!: Subscription;
 
   ngOnInit() {
-    // Directly call updateMenuItems whenever component initializes
-    this.updateMenuItems();
+    // Subscribe to the favoriteTickers$ observable to update menu items
+    this.subscription = this.favoriteTickersService.favoriteTickers$.subscribe(
+      () => {
+        this.updateMenuItems();
+      }
+    );
   }
 
   updateMenuItems() {
-    this.items.set([
+    this.items = [
       {
         label: 'Home',
         icon: 'pi pi-home',
@@ -31,7 +37,7 @@ export class NavbarComponent implements OnInit {
         },
       },
       {
-        label: 'investment calculator',
+        label: 'Investment Calculator',
         icon: 'pi pi-calculator',
         command: () => {
           this.router.navigate(['/calculator']);
@@ -46,26 +52,34 @@ export class NavbarComponent implements OnInit {
         label: 'Contact',
         icon: 'pi pi-envelope',
       },
-    ]);
+    ];
   }
 
   generateFavoriteTickersMenuItems(): MenuItem[] {
-    return this.favoriteTickersService.favoriteTickers().map((ticker) => ({
-      label: ticker,
-      icon: 'pi pi-link',
-      command: () => {
-        this.router.navigate([`/ticker/${ticker}`]);
-      },
-      items: [
-        {
-          label: 'Delete',
-          icon: 'pi pi-times',
-          command: () => {
-            this.favoriteTickersService.removeTicker(ticker);
-            this.updateMenuItems(); // Update the menu after removing a ticker
-          },
+    return this.favoriteTickersService.favoriteTickersSubject
+      .getValue()
+      .map((ticker) => ({
+        label: ticker,
+        icon: 'pi pi-link',
+        command: () => {
+          this.router.navigate([`/ticker/${ticker}`]);
         },
-      ],
-    }));
+        items: [
+          {
+            label: 'Delete',
+            icon: 'pi pi-times',
+            command: () => {
+              this.favoriteTickersService.removeTicker(ticker);
+              this.updateMenuItems(); // Update the menu after removing a ticker
+            },
+          },
+        ],
+      }));
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe(); // Unsubscribe to avoid memory leaks
+    }
   }
 }

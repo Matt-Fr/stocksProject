@@ -1,4 +1,5 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { FavoriteTickersService } from '../../../services/favorite-tickers.service';
@@ -10,26 +11,35 @@ import { FavoriteTickersService } from '../../../services/favorite-tickers.servi
   templateUrl: './button-save-link.component.html',
   styleUrl: './button-save-link.component.css',
 })
-export class ButtonSaveLinkComponent {
+export class ButtonSaveLinkComponent implements OnInit, OnDestroy {
   text = input<string>('');
   url = input<string>();
+  checked = false; // Simple boolean instead of signal
   favoriteTickersService = inject(FavoriteTickersService); // Inject the service
-  checked = signal<boolean>(false); // Use signal for checked state
+  private subscription!: Subscription; // Subscription to manage observable
 
   ngOnInit() {
-    this.checked.set(this.favoriteTickersService.isFavorite(this.text()));
-    console.log(this.checked());
-    console.log(this.favoriteTickersService.isFavorite(this.text()));
+    // Subscribe to the favoriteTickers$ observable and update the checked state
+    this.subscription = this.favoriteTickersService.favoriteTickers$.subscribe(
+      (tickers) => {
+        this.checked = tickers.includes(this.text());
+      }
+    );
   }
 
   toggleFavorite() {
     const ticker = this.text();
 
-    if (this.checked()) {
+    if (this.checked) {
       this.favoriteTickersService.removeTicker(ticker);
     } else {
       this.favoriteTickersService.addTicker(ticker);
-    } // Toggle the checked state
-    this.checked.set(!this.checked());
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe(); // Unsubscribe to avoid memory leaks
+    }
   }
 }
