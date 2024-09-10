@@ -1,6 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
+import { FavoriteTickersService } from '../../../services/favorite-tickers.service';
 
 @Component({
   selector: 'app-button-save-link',
@@ -12,44 +13,23 @@ import { ButtonModule } from 'primeng/button';
 export class ButtonSaveLinkComponent {
   text = input<string>('');
   url = input<string>();
-  checked: boolean = false;
-  favoriteTickers: string[] = [];
+  favoriteTickersService = inject(FavoriteTickersService); // Inject the service
+  checked = signal<boolean>(false); // Use signal for checked state
 
   ngOnInit() {
-    // Check if the ticker is already in localStorage on component initialization
-    const storedTickers = localStorage.getItem('favoriteTickers');
-    if (storedTickers) {
-      this.favoriteTickers = JSON.parse(storedTickers);
-      this.checked = this.favoriteTickers.includes(this.text());
-    }
+    this.checked.set(this.favoriteTickersService.isFavorite(this.text()));
+    console.log(this.checked());
+    console.log(this.favoriteTickersService.isFavorite(this.text()));
   }
 
   toggleFavorite() {
-    // Get the latest favoriteTickers from localStorage
-    const storedTickers = localStorage.getItem('favoriteTickers');
-    if (storedTickers) {
-      this.favoriteTickers = JSON.parse(storedTickers); // Keep previously stored tickers
-    }
+    const ticker = this.text();
 
-    const ticker = this.text() || '';
-
-    if (this.checked) {
-      // If already checked, remove it from the array
-      this.favoriteTickers = this.favoriteTickers.filter(
-        (favTicker) => favTicker !== ticker
-      );
+    if (this.checked()) {
+      this.favoriteTickersService.removeTicker(ticker);
     } else {
-      // If not checked, add it to the array
-      this.favoriteTickers.push(ticker);
-    }
-
-    // Save the updated favoriteTickers back to localStorage
-    localStorage.setItem(
-      'favoriteTickers',
-      JSON.stringify(this.favoriteTickers)
-    );
-
-    // Toggle the checked state
-    this.checked = !this.checked;
+      this.favoriteTickersService.addTicker(ticker);
+    } // Toggle the checked state
+    this.checked.set(!this.checked());
   }
 }

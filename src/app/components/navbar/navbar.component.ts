@@ -1,7 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
+import { FavoriteTickersService } from '../../services/favorite-tickers.service'; // Import the service
 
 @Component({
   selector: 'app-navbar',
@@ -12,18 +13,16 @@ import { MenubarModule } from 'primeng/menubar';
 })
 export class NavbarComponent implements OnInit {
   private router = inject(Router);
-  items: MenuItem[] = [];
-  favoriteTickers: string[] = [];
+  private favoriteTickersService = inject(FavoriteTickersService); // Inject the service
+  items = signal<MenuItem[]>([]); // Correct signal type for MenuItem[]
 
   ngOnInit() {
-    // Load favorite tickers from localStorage
-    const storedTickers = localStorage.getItem('favoriteTickers');
-    if (storedTickers) {
-      this.favoriteTickers = JSON.parse(storedTickers);
-    }
+    // Directly call updateMenuItems whenever component initializes
+    this.updateMenuItems();
+  }
 
-    // Generate menu items
-    this.items = [
+  updateMenuItems() {
+    this.items.set([
       {
         label: 'Home',
         icon: 'pi pi-home',
@@ -47,64 +46,26 @@ export class NavbarComponent implements OnInit {
         label: 'Contact',
         icon: 'pi pi-envelope',
       },
-    ];
+    ]);
   }
 
-  // Generate MenuItems for favorite tickers
   generateFavoriteTickersMenuItems(): MenuItem[] {
-    return this.favoriteTickers.map((ticker) => ({
+    return this.favoriteTickersService.favoriteTickers().map((ticker) => ({
       label: ticker,
-      icon: 'pi pi-link', // icon for each ticker
+      icon: 'pi pi-link',
       command: () => {
-        this.router.navigate([`/ticker/${ticker}`]); // Navigate to ticker page
+        this.router.navigate([`/ticker/${ticker}`]);
       },
       items: [
         {
           label: 'Delete',
           icon: 'pi pi-times',
           command: () => {
-            this.removeTickerFromFavorites(ticker);
+            this.favoriteTickersService.removeTicker(ticker);
+            this.updateMenuItems(); // Update the menu after removing a ticker
           },
         },
       ],
     }));
-  }
-
-  // Remove ticker from favorites
-  removeTickerFromFavorites(ticker: string) {
-    this.favoriteTickers = this.favoriteTickers.filter(
-      (favTicker) => favTicker !== ticker
-    );
-    localStorage.setItem(
-      'favoriteTickers',
-      JSON.stringify(this.favoriteTickers)
-    );
-
-    // Update the menu items to reflect the removal
-    this.items = [
-      {
-        label: 'Home',
-        icon: 'pi pi-home',
-        command: () => {
-          this.router.navigate(['/']);
-        },
-      },
-      {
-        label: 'investment calculator',
-        icon: 'pi pi-calculator',
-        command: () => {
-          this.router.navigate(['/calculator']);
-        },
-      },
-      {
-        label: 'Favorite Tickers',
-        icon: 'pi pi-heart-fill',
-        items: this.generateFavoriteTickersMenuItems(),
-      },
-      {
-        label: 'Contact',
-        icon: 'pi pi-envelope',
-      },
-    ];
   }
 }
