@@ -60,9 +60,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
       .getValue()
       .map((ticker) => ({
         label: ticker,
-        icon: 'pi pi-link',
         command: () => {
-          this.router.navigate([`/ticker/${ticker}`]);
+          this.router.navigate([`/${ticker}`]);
         },
         items: [
           {
