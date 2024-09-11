@@ -5,25 +5,27 @@ import { MenuItem } from 'primeng/api';
 import { FavoriteTickersService } from '../../services/favorite-tickers.service';
 import { MenubarModule } from 'primeng/menubar';
 import { SidebarModule } from 'primeng/sidebar';
+import { SavedArticleService } from '../../services/savedArticles/saved-articles.service';
+import { ThumbnailArticleComponent } from '../thumbnail-article/thumbnail-article.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MenubarModule, SidebarModule], // Import SidebarModule
+  imports: [MenubarModule, SidebarModule, ThumbnailArticleComponent],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   private router = inject(Router);
-  private favoriteTickersService = inject(FavoriteTickersService); // Inject the service
-  items: MenuItem[] = []; // MenuItem array for the menu
+  private favoriteTickersService = inject(FavoriteTickersService);
+  private articleService = inject(SavedArticleService); // Inject the ArticleService
+  items: MenuItem[] = [];
   private subscription!: Subscription;
 
-  // Add a sidebar visible state variable
   sidebarVisible: boolean = false;
+  savedArticles = this.articleService.savedArticles(); // Access the saved articles from ArticleService
 
   ngOnInit() {
-    // Subscribe to the favoriteTickers$ observable to update menu items
     this.subscription = this.favoriteTickersService.favoriteTickers$.subscribe(
       () => {
         this.updateMenuItems();
@@ -31,7 +33,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     );
   }
 
-  // Toggle sidebar visibility
   toggleSidebar() {
     this.sidebarVisible = !this.sidebarVisible;
   }
@@ -62,10 +63,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
         icon: 'pi pi-envelope',
       },
       {
-        label: 'Toggle Sidebar', // Add a new button for the sidebar
+        label: 'Toggle Sidebar',
         icon: 'pi pi-bars',
         command: () => {
-          this.toggleSidebar(); // Toggle sidebar visibility when clicked
+          this.toggleSidebar();
         },
       },
     ];
@@ -94,7 +95,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.subscription) {
-      this.subscription.unsubscribe(); // Unsubscribe to avoid memory leaks
+      this.subscription.unsubscribe();
     }
   }
 }

@@ -1,6 +1,21 @@
 <p-menubar [model]="items"></p-menubar>
 
-<p-sidebar [(visible)]="sidebarVisible">
+<p-sidebar
+  [(visible)]="sidebarVisible"
+  position="right"
+  [style]="{ width: 'auto' }"
+>
+  <ng-template pTemplate="header">
+    <h3>Saved articles</h3>
+  </ng-template>
   <!-- Content for  sidebar -->
-  <h1>lorem1000</h1>
+
+  @if (savedArticles.length) { @for (article of savedArticles; track $index) {
+  <app-thumbnail-article
+    [title]="article.title"
+    [description]="article.description"
+    [url]="article.url"
+    [imageUrl]="article.imageUrl"
+  ></app-thumbnail-article>
+  } }
 </p-sidebar>
