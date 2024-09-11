@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 interface Article {
   title: string | undefined;
@@ -11,35 +12,36 @@ interface Article {
   providedIn: 'root',
 })
 export class SavedArticleService {
-  savedArticles = signal<Article[]>([]);
+  private savedArticlesSubject = new BehaviorSubject<Article[]>([]);
+  savedArticles$ = this.savedArticlesSubject.asObservable();
 
   constructor() {
     const saved = localStorage.getItem('savedArticles');
     if (saved) {
-      this.savedArticles.set(JSON.parse(saved));
+      this.savedArticlesSubject.next(JSON.parse(saved));
     }
   }
 
   saveArticle(article: Article): void {
-    const currentArticles = this.savedArticles();
+    const currentArticles = this.savedArticlesSubject.getValue();
     if (!currentArticles.some((a) => a.url === article.url)) {
-      this.savedArticles.set([...currentArticles, article]);
-      localStorage.setItem(
-        'savedArticles',
-        JSON.stringify(this.savedArticles())
-      );
+      const updatedArticles = [...currentArticles, article];
+      this.savedArticlesSubject.next(updatedArticles);
+      localStorage.setItem('savedArticles', JSON.stringify(updatedArticles));
     }
   }
 
   removeArticle(article: Article): void {
-    const updatedArticles = this.savedArticles().filter(
-      (a) => a.url !== article.url
-    );
-    this.savedArticles.set(updatedArticles);
+    const updatedArticles = this.savedArticlesSubject
+      .getValue()
+      .filter((a) => a.url !== article.url);
+    this.savedArticlesSubject.next(updatedArticles);
     localStorage.setItem('savedArticles', JSON.stringify(updatedArticles));
   }
 
   isArticleSaved(article: Article): boolean {
-    return this.savedArticles().some((a) => a.url === article.url);
+    return this.savedArticlesSubject
+      .getValue()
+      .some((a) => a.url === article.url);
   }
 }

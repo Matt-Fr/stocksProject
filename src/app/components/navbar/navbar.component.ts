@@ -8,6 +8,13 @@ import { SidebarModule } from 'primeng/sidebar';
 import { SavedArticleService } from '../../services/savedArticles/saved-articles.service';
 import { ThumbnailArticleComponent } from '../thumbnail-article/thumbnail-article.component';
 
+interface Article {
+  title: string | undefined;
+  url: string | undefined;
+  imageUrl: string | undefined;
+  description: string | undefined;
+}
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -19,18 +26,29 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private favoriteTickersService = inject(FavoriteTickersService);
   private articleService = inject(SavedArticleService); // Inject the ArticleService
+
   items: MenuItem[] = [];
-  private subscription!: Subscription;
+  private favoriteSubscription!: Subscription;
+  private articleSubscription!: Subscription;
 
   sidebarVisible: boolean = false;
-  savedArticles = this.articleService.savedArticles(); // Access the saved articles from ArticleService
+  savedArticles: Article[] = []; // Array to store saved articles
 
   ngOnInit() {
-    this.subscription = this.favoriteTickersService.favoriteTickers$.subscribe(
-      () => {
+    // Subscribe to favorite tickers updates
+    this.favoriteSubscription =
+      this.favoriteTickersService.favoriteTickers$.subscribe(() => {
         this.updateMenuItems();
+      });
+
+    // Subscribe to saved articles updates
+    this.articleSubscription = this.articleService.savedArticles$.subscribe(
+      (articles) => {
+        this.savedArticles = articles;
       }
     );
+
+    this.updateMenuItems();
   }
 
   toggleSidebar() {
@@ -94,8 +112,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.favoriteSubscription) {
+      this.favoriteSubscription.unsubscribe();
+    }
+
+    if (this.articleSubscription) {
+      this.articleSubscription.unsubscribe();
     }
   }
 }
