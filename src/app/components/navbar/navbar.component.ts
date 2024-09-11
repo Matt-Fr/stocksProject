@@ -4,11 +4,12 @@ import { Subscription } from 'rxjs';
 import { MenuItem } from 'primeng/api';
 import { FavoriteTickersService } from '../../services/favorite-tickers.service';
 import { MenubarModule } from 'primeng/menubar';
+import { SidebarModule } from 'primeng/sidebar';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MenubarModule],
+  imports: [MenubarModule, SidebarModule], // Import SidebarModule
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
@@ -18,6 +19,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   items: MenuItem[] = []; // MenuItem array for the menu
   private subscription!: Subscription;
 
+  // Add a sidebar visible state variable
+  sidebarVisible: boolean = false;
+
   ngOnInit() {
     // Subscribe to the favoriteTickers$ observable to update menu items
     this.subscription = this.favoriteTickersService.favoriteTickers$.subscribe(
@@ -25,6 +29,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.updateMenuItems();
       }
     );
+  }
+
+  // Toggle sidebar visibility
+  toggleSidebar() {
+    this.sidebarVisible = !this.sidebarVisible;
   }
 
   updateMenuItems() {
@@ -51,6 +60,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
       {
         label: 'Contact',
         icon: 'pi pi-envelope',
+      },
+      {
+        label: 'Toggle Sidebar', // Add a new button for the sidebar
+        icon: 'pi pi-bars',
+        command: () => {
+          this.toggleSidebar(); // Toggle sidebar visibility when clicked
+        },
       },
     ];
   }
