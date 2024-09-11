@@ -9,12 +9,11 @@
     <ng-template pTemplate="footer">
       <div class="flex gap-3 mt-1">
         <p-button
-          label="Cancel"
-          severity="secondary"
+          [label]="isSaved() ? 'Saved' : 'Save'"
           class="w-full"
           styleClass="w-full"
-        />
-        <p-button label="Save" class="w-full" styleClass="w-full" />
+          (click)="handleSaveClick($event)"
+        ></p-button>
       </div>
     </ng-template>
   </p-card>
