@@ -11,6 +11,7 @@ import { ThumbnailArticleComponent } from '../../components/thumbnail-article/th
 import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuItem } from 'primeng/api';
 import { CardModule } from 'primeng/card';
+import { Subscription } from 'rxjs';
 
 type DateRange =
   | 'oneDay'
@@ -51,16 +52,25 @@ export class StockComponent {
   dataArticle = signal<ArticleNews[]>([]);
   items: MenuItem[] | undefined;
   activeItem: MenuItem | undefined;
+  private routeSub: Subscription | undefined;
 
   ngOnInit(): void {
-    const ticker = this.route.snapshot.paramMap.get('ticker');
+    // Subscribe to route changes
+    this.routeSub = this.route.params.subscribe((params) => {
+      const ticker = params['ticker'];
+      if (ticker) {
+        this.fetchTickerInfo(ticker);
+        this.fetchStockData(ticker, this.duration(), 'data1');
+        this.fetchNewsArticle(ticker);
+      } else {
+        console.error('Ticker not found in the URL');
+      }
+    });
+  }
 
-    if (ticker) {
-      this.fetchTickerInfo(ticker);
-      this.fetchStockData(ticker, this.duration(), 'data1');
-      this.fetchNewsArticle(ticker);
-    } else {
-      console.error('Ticker not found in the URL');
+  ngOnDestroy(): void {
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
     }
   }
 
