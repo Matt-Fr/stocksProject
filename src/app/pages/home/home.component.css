@@ -8,3 +8,16 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+main {
+  display: grid;
+  grid-template-columns: 1fr; /* Single column layout */
+  gap: 1rem; /* Gap between p-cards */
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  main {
+    padding: 0 2rem; /* Add padding to the left and right on desktop */
+  }
+}

@@ -77,10 +77,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         items: this.generateFavoriteTickersMenuItems(),
       },
       {
-        label: 'Contact',
-        icon: 'pi pi-envelope',
-      },
-      {
         label: 'Saved Articles',
         icon: 'pi pi-book',
         command: () => {
