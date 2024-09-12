@@ -30,7 +30,7 @@ export class SearchBarComponent {
   onInputChange(event: Event) {
     const inputElement = event.target as HTMLInputElement | null;
     if (inputElement) {
-      this.enteredText.set(inputElement.value);
+      this.enteredText.set(inputElement.value.toUpperCase());
     }
   }
 }

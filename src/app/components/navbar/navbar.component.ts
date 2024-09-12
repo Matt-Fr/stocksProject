@@ -81,8 +81,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         icon: 'pi pi-envelope',
       },
       {
-        label: 'Toggle Sidebar',
-        icon: 'pi pi-bars',
+        label: 'Saved Articles',
+        icon: 'pi pi-book',
         command: () => {
           this.toggleSidebar();
         },
