@@ -10,9 +10,16 @@
     (durationChanged)="onDurationChanged($event)"
   ></app-graph
 ></p-card>
-<p-card>
-  <app-search-bar (checkEnteredText)="submitInput($event)"></app-search-bar
-></p-card>
+
+<p-card header="Compare with an other ticker">
+  <app-search-bar (checkEnteredText)="submitInput($event)"></app-search-bar>
+  <p class="p-text-secondary">
+    Having trouble finding your ticker? You can check out
+    <a target="_blank" href="https://stockanalysis.com/stocks/">this link</a>
+    for a complete list of U.S. stocks. Please note, the website you're viewing
+    only displays U.S. stocks.
+  </p></p-card
+>
 }
 <p-card>
   @if (!data) {
