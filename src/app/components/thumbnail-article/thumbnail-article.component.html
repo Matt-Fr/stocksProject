@@ -13,6 +13,7 @@
           class="w-full"
           styleClass="w-full"
           (click)="handleSaveClick($event)"
+          [outlined]="isSaved() ? 'false' : 'true'"
         ></p-button>
       </div>
     </ng-template>
