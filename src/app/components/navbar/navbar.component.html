@@ -6,7 +6,11 @@
   [style]="{ width: 'auto' }"
 >
   <ng-template pTemplate="header">
+    @if (!savedArticles.length) {
+    <h3>No saved articles</h3>
+    } @else {
     <h3>Saved articles</h3>
+    }
   </ng-template>
   <!-- Content for  sidebar -->
 

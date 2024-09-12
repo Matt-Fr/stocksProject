@@ -1,7 +1,12 @@
-<app-search-bar (checkEnteredText)="checkInput($event)"></app-search-bar> @if
-(searchBarError) {
-<p>THIS TICKER DOES NOT EXIST</p>
-}
+<p-card header="Find a Ticker">
+  <app-search-bar (checkEnteredText)="checkInput($event)"></app-search-bar>
+  <p class="p-text-secondary">
+    Having trouble finding your ticker? You can check out
+    <a target="_blank" href="https://stockanalysis.com/stocks/">this link</a>
+    for a complete list of U.S. stocks. Please note, the website you're viewing
+    only displays U.S. stocks.
+  </p>
+</p-card>
 
 <p-card
   header="Most important US stocks"
@@ -9,7 +14,11 @@
 >
   <div class="tickers-container">
     @for (item of tickers; track $index) {
-    <app-button-save-link [url]="item" [text]="item"></app-button-save-link>
+    <app-button-save-link
+      [url]="item.ticker"
+      [text]="item.ticker"
+      [tooltipText]="item.name"
+    ></app-button-save-link>
     }
   </div>
 </p-card>
