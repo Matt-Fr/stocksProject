@@ -13,11 +13,11 @@
   </ng-template>
   <ng-template pTemplate="body" let-result>
     <tr>
-      <td>{{ result.year | currency }}</td>
-      <td>{{ result.valueEndOfYear | currency }}</td>
+      <td>{{ result.year }}</td>
+      <td>{{ result.totalAmountInvested | currency }}</td>
       <td>{{ result.interest | currency }}</td>
       <td>{{ result.totalInterest | currency }}</td>
-      <td>{{ result.totalAmountInvested | currency }}</td>
+      <td>{{ result.valueEndOfYear | currency }}</td>
     </tr>
   </ng-template>
 </p-table>
