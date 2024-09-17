@@ -2,7 +2,7 @@ import { Component, inject, input, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { FavoriteTickersService } from '../../../services/favorite-tickers.service';
+import { FavoriteTickersService } from '../../../services/favoriteTickers/favorite-tickers.service';
 import { TooltipModule } from 'primeng/tooltip';
 
 @Component({

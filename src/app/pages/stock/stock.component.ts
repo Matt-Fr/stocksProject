@@ -5,13 +5,13 @@ import { environment } from '../../../environments/environment.development';
 import { StockInfoApiResponse } from '../../models/StockInfo.model';
 import { GraphComponent } from '../../components/graph/graph.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
-import { StocksService } from '../../services/stocks.service';
 import { ArticleNews, HomeNewsarticle } from '../../models/ArticleNews.model';
 import { ThumbnailArticleComponent } from '../../components/thumbnail-article/thumbnail-article.component';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuItem } from 'primeng/api';
 import { CardModule } from 'primeng/card';
 import { Subscription } from 'rxjs';
+import { StocksService } from '../../services/stocks/stocks.service';
 
 type DateRange =
   | 'oneDay'

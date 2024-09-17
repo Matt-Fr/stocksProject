@@ -2,7 +2,7 @@ import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MenuItem } from 'primeng/api';
-import { FavoriteTickersService } from '../../services/favorite-tickers.service';
+import { FavoriteTickersService } from '../../services/favoriteTickers/favorite-tickers.service';
 import { MenubarModule } from 'primeng/menubar';
 import { SidebarModule } from 'primeng/sidebar';
 import { SavedArticleService } from '../../services/savedArticles/saved-articles.service';
