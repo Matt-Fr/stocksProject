@@ -1,7 +1,12 @@
 <p-menubar
   [model]="items"
   [style]="{ border: 'none', borderRadius: '0', marginBottom: '2rem' }"
-></p-menubar>
+  ><ng-template pTemplate="start"
+    ><div class="icon">
+      <span class="text1">STOCK</span><span class="text2">LENS</span>
+    </div></ng-template
+  ></p-menubar
+>
 
 <p-sidebar
   [(visible)]="sidebarVisible"
