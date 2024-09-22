@@ -9,6 +9,7 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "assets": ["src/_redirects"],
       "architect": {
         "build": {
           "builder": "@ngx-env/builder:application",
