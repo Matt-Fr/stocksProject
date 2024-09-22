@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { HomeNewsarticle } from '../../models/ArticleNews.model';
 import { ThumbnailArticleComponent } from '../../components/thumbnail-article/thumbnail-article.component';
 import { ButtonSaveLinkComponent } from '../../components/buttons/button-save-link/button-save-link.component';

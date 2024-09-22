@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { StockInfoApiResponse } from '../../models/StockInfo.model';
 import { GraphComponent } from '../../components/graph/graph.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
