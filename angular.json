@@ -27,6 +27,9 @@
             "styles": ["src/styles.css"],
             "scripts": []
           },
+          "ngxEnv": {
+            "define": "_NGX_ENV_"
+          },
           "configurations": {
             "production": {
               "budgets": [
