@@ -37,6 +37,6 @@ export class CalculatorComponent {
       });
     }
     this.calculatedData.set(annualData);
-    console.log(this.calculatedData());
+    // console.log(this.calculatedData());
   }
 }

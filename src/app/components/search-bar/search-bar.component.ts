@@ -23,7 +23,7 @@ export class SearchBarComponent {
   enteredText = signal('');
 
   onSubmit() {
-    console.log('submitted!');
+    // console.log('submitted!');
     this.checkEnteredText.emit(this.enteredText());
   }
 

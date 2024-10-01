@@ -81,7 +81,7 @@ export class StockComponent {
       )
       .subscribe({
         next: (resData) => {
-          console.log(resData);
+          // console.log(resData);
           this.data = resData;
         },
       });
@@ -99,7 +99,7 @@ export class StockComponent {
       .loadStockData(ticker, range)
       .subscribe({
         next: (resData) => {
-          console.log(resData);
+          // console.log(resData);
 
           const convertTimestampToDate = (timestamp: number): string => {
             const date = new Date(timestamp);
@@ -127,7 +127,7 @@ export class StockComponent {
 
   submitInput(data: string) {
     this.enteredText.set(data);
-    console.log(this.enteredText());
+    // console.log(this.enteredText());
 
     if (data) {
       this.fetchStockData(data, this.duration(), 'data2');
@@ -155,7 +155,7 @@ export class StockComponent {
       .subscribe({
         next: (resData) => {
           this.dataArticle.set(resData.data);
-          console.log(this.dataArticle());
+          // console.log(this.dataArticle());
         },
       });
     this.destroyRef.onDestroy(() => {

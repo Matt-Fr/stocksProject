@@ -69,7 +69,7 @@ export class HomeComponent {
       )
       .subscribe({
         next: (resData) => {
-          console.log(resData);
+          // console.log(resData);
           this.dataNews.set(resData.articles);
         },
       });
