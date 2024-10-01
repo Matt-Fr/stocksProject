@@ -146,20 +146,23 @@ export class StockComponent {
       }
     }
   }
-  // create an interface
-  fetchNewsArticle(ticker: string) {
+
+  fetchNewsArticle(ticker: string): void {
+    const encodedApiKey = encodeURIComponent(environment.apiKeyTickerNews);
+    console.log(encodedApiKey);
     const subscription = this.httpClient
       .get<{ data: ArticleNews[] }>(
-        `https://api.marketaux.com/v1/news/all?symbols=${ticker}&filter_entities=true&language=en&page=1&api_token=${environment.apiKeyTickerNews}`
+        `https://api.marketaux.com/v1/news/all?symbols=${ticker}&filter_entities=true&language=en&page=1&api_token=${encodedApiKey}`
       )
       .subscribe({
-        next: (resData) => {
-          this.dataArticle.set(resData.data);
-          // console.log(this.dataArticle());
+        next: (response) => {
+          this.dataArticle.set(response.data);
+        },
+        error: (error) => {
+          console.error('Error fetching news articles:', error);
         },
       });
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
-    });
+
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }
