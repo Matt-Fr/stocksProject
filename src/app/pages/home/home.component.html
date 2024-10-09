@@ -29,7 +29,7 @@
       @if (dataNews().length) { @for (item of dataNews(); track $index) {
       <app-thumbnail-article
         [title]="item.title"
-        [imageUrl]="item.urlToImage"
+        [imageUrl]="item.image_url"
         [url]="item.url"
         [description]="item.description"
       />

@@ -3,10 +3,11 @@ import { Router, RouterLink } from '@angular/router';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { HomeNewsarticle } from '../../models/ArticleNews.model';
+import { ArticleNews, HomeNewsarticle } from '../../models/ArticleNews.model';
 import { ThumbnailArticleComponent } from '../../components/thumbnail-article/thumbnail-article.component';
 import { ButtonSaveLinkComponent } from '../../components/buttons/button-save-link/button-save-link.component';
 import { CardModule } from 'primeng/card';
+import { NewsService } from '../../services/news/news.service';
 
 @Component({
   selector: 'app-home',
@@ -24,10 +25,12 @@ import { CardModule } from 'primeng/card';
 export class HomeComponent {
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
-  dataNews = signal<HomeNewsarticle[]>([]);
+  dataNews = signal<ArticleNews[]>([]);
   enteredText = signal<string>('');
   searchBarError = false;
   private router = inject(Router);
+  private newsService = inject(NewsService);
+  dataArticle = signal<ArticleNews[]>([]);
 
   tickers = [
     { ticker: 'AAPL', name: 'Apple' },
@@ -53,7 +56,7 @@ export class HomeComponent {
   ];
 
   ngOnInit(): void {
-    this.fetchNews();
+    this.fetchNewsArticle('SPY');
   }
 
   checkInput(data: string) {
@@ -62,17 +65,13 @@ export class HomeComponent {
     this.router.navigate([`/${this.enteredText()}`]);
   }
 
-  fetchNews() {
-    const subscription = this.httpClient
-      .get<{ status: number; articles: HomeNewsarticle[] }>(
-        `https://newsapi.org/v2/everything?q=finance&apiKey=${environment.apiKeyNews}`
-      )
-      .subscribe({
-        next: (resData) => {
-          // console.log(resData);
-          this.dataNews.set(resData.articles);
-        },
-      });
+  fetchNewsArticle(ticker: string) {
+    const subscription = this.newsService.fetchNewsArticle(ticker).subscribe({
+      next: (resData) => {
+        this.dataNews.set(resData.data);
+        console.log(resData.data);
+      },
+    });
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
