@@ -12,6 +12,7 @@ import { MenuItem } from 'primeng/api';
 import { CardModule } from 'primeng/card';
 import { Subscription } from 'rxjs';
 import { StocksService } from '../../services/stocks/stocks.service';
+import { NewsService } from '../../services/news/news.service';
 
 type DateRange =
   | 'oneDay'
@@ -53,6 +54,7 @@ export class StockComponent {
   items: MenuItem[] | undefined;
   activeItem: MenuItem | undefined;
   private routeSub: Subscription | undefined;
+  private newsService = inject(NewsService);
 
   ngOnInit(): void {
     // Subscribe to route changes
@@ -148,16 +150,11 @@ export class StockComponent {
   }
 
   fetchNewsArticle(ticker: string) {
-    const subscription = this.httpClient
-      .get<{ data: ArticleNews[] }>(
-        `https://api.marketaux.com/v1/news/all?symbols=${ticker}&filter_entities=true&language=en&page=1&api_token=${environment.apiKeyTickerNews}`
-      )
-      .subscribe({
-        next: (resData) => {
-          this.dataArticle.set(resData.data);
-          // console.log(this.dataArticle());
-        },
-      });
+    const subscription = this.newsService.fetchNewsArticle(ticker).subscribe({
+      next: (resData) => {
+        this.dataArticle.set(resData.data);
+      },
+    });
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
