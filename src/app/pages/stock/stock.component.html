@@ -1,4 +1,6 @@
-@if (data1.length && dataXaxis.length) {
+@if (data) {
+<h1 class="p-text-primary">{{ data.results.name }}</h1>
+} @if (data1.length && dataXaxis.length) {
 <p-card>
   <app-graph
     class="graphComponent"

@@ -13,6 +13,7 @@ import { CardModule } from 'primeng/card';
 import { Subscription } from 'rxjs';
 import { StocksService } from '../../services/stocks/stocks.service';
 import { NewsService } from '../../services/news/news.service';
+import { PanelModule } from 'primeng/panel';
 
 type DateRange =
   | 'oneDay'
@@ -33,6 +34,7 @@ type DateRange =
     ThumbnailArticleComponent,
     TabMenuModule,
     CardModule,
+    PanelModule,
   ],
   templateUrl: './stock.component.html',
   styleUrls: ['./stock.component.css'],

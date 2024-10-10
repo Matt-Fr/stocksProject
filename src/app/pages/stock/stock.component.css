@@ -13,3 +13,24 @@
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
+
+h1 {
+  margin-left: 2rem;
+  font-size: 2rem;
+}
+
+/* For tablets (768px to 1024px) */
+@media (max-width: 1024px) {
+  h1 {
+    margin-left: 1.5rem;
+    font-size: 1.5rem;
+  }
+}
+
+/* For mobile devices (up to 767px) */
+@media (max-width: 767px) {
+  h1 {
+    margin-left: 1rem;
+    font-size: 1.3rem;
+  }
+}
