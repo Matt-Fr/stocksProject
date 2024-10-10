@@ -87,24 +87,35 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   generateFavoriteTickersMenuItems(): MenuItem[] {
-    return this.favoriteTickersService.favoriteTickersSubject
-      .getValue()
-      .map((ticker) => ({
-        label: ticker,
-        command: () => {
-          this.router.navigate([`/${ticker}`]);
+    const favoriteTickers =
+      this.favoriteTickersService.favoriteTickersSubject.getValue();
+
+    if (favoriteTickers.length === 0) {
+      return [
+        {
+          label: 'No favorite tickers saved',
+          icon: 'pi pi-info-circle',
+          disabled: true, // Disables the item so it can't be clicked
         },
-        items: [
-          {
-            label: 'Delete',
-            icon: 'pi pi-times',
-            command: () => {
-              this.favoriteTickersService.removeTicker(ticker);
-              this.updateMenuItems(); // Update the menu after removing a ticker
-            },
+      ];
+    }
+
+    return favoriteTickers.map((ticker) => ({
+      label: ticker,
+      command: () => {
+        this.router.navigate([`/${ticker}`]);
+      },
+      items: [
+        {
+          label: 'Delete',
+          icon: 'pi pi-times',
+          command: () => {
+            this.favoriteTickersService.removeTicker(ticker);
+            this.updateMenuItems(); // Update the menu after removing a ticker
           },
-        ],
-      }));
+        },
+      ],
+    }));
   }
 
   ngOnDestroy() {
