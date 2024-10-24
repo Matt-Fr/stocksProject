@@ -9,7 +9,7 @@
 
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
   gap: 1rem;
 }
 
@@ -34,9 +34,12 @@
 
 .form-submit {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  grid-column: span 2;
 }
 
 button[pButton] {
   margin-top: 1rem;
+  margin-left: auto;
+  margin-right: auto;
 }

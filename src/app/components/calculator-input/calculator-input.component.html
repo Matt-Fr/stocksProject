@@ -1,79 +1,85 @@
-<form (ngSubmit)="onSubmit()" class="investment-form">
-  <div class="form-grid">
-    <div class="form-row">
-      <div class="form-group">
-        <label for="initial-investment">Initial Investment</label>
-        <p-inputNumber
-          id="initial-investment"
-          inputId="integeronly"
-          name="initial-investment"
-          type="number"
-          [(ngModel)]="inputInitialInvestment"
-          mode="currency"
-          currency="USD"
-          locale="en-US"
-          class="input-number"
-          minFractionDigits="0"
-          maxFractionDigits="0"
-        />
+<form (ngSubmit)="onSubmit()">
+  <p-card header="Investment Calculator" class="investment-card">
+    <div class="form-grid">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="initial-investment">Initial Investment</label>
+          <p-inputNumber
+            id="initial-investment"
+            inputId="integeronly"
+            name="initial-investment"
+            type="number"
+            [(ngModel)]="inputInitialInvestment"
+            mode="currency"
+            currency="USD"
+            locale="en-US"
+            class="input-number"
+            minFractionDigits="0"
+            maxFractionDigits="0"
+            [style]="{ width: '100%' }"
+          />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="annual-investment">Annual Investment</label>
+          <p-inputNumber
+            id="annual-investment"
+            name="annual-investment"
+            type="number"
+            [(ngModel)]="inputAnnualInvestment"
+            mode="currency"
+            currency="USD"
+            locale="en-US"
+            class="input-number"
+            minFractionDigits="0"
+            maxFractionDigits="0"
+            [style]="{ width: '100%' }"
+          />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="expected-return">Expected Return (%)</label>
+          <p-inputNumber
+            id="expected-return"
+            name="expected-return"
+            type="number"
+            [(ngModel)]="inputExpectedReturn"
+            suffix="%"
+            minFractionDigits="0"
+            maxFractionDigits="0"
+            class="input-number"
+            [style]="{ width: '100%' }"
+          />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="duration">Duration (Years)</label>
+          <p-inputNumber
+            id="duration"
+            name="duration"
+            type="number"
+            [(ngModel)]="inputDuration"
+            min="1"
+            suffix=" years"
+            minFractionDigits="0"
+            maxFractionDigits="0"
+            class="input-number"
+            [style]="{ width: '100%' }"
+          />
+        </div>
+      </div>
+      <div class="form-row form-submit">
+        <button
+          pButton
+          type="submit"
+          label="Calculate"
+          class="p-button-raised p-button-primary"
+          [style]="{ width: '50%' }"
+        ></button>
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label for="annual-investment">Annual Investment</label>
-        <p-inputNumber
-          id="annual-investment"
-          name="annual-investment"
-          type="number"
-          [(ngModel)]="inputAnnualInvestment"
-          mode="currency"
-          currency="USD"
-          locale="en-US"
-          class="input-number"
-          minFractionDigits="0"
-          maxFractionDigits="0"
-        />
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label for="expected-return">Expected Return (%)</label>
-        <p-inputNumber
-          id="expected-return"
-          name="expected-return"
-          type="number"
-          [(ngModel)]="inputExpectedReturn"
-          suffix="%"
-          minFractionDigits="0"
-          maxFractionDigits="0"
-          class="input-number"
-        />
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label for="duration">Duration (Years)</label>
-        <p-inputNumber
-          id="duration"
-          name="duration"
-          type="number"
-          [(ngModel)]="inputDuration"
-          min="1"
-          max="50"
-          suffix=" years"
-          minFractionDigits="0"
-          maxFractionDigits="0"
-          class="input-number"
-        />
-      </div>
-    </div>
-    <div class="form-row form-submit">
-      <button
-        pButton
-        type="submit"
-        label="Calculate"
-        class="p-button-raised p-button-primary"
-      ></button>
-    </div>
-  </div>
+  </p-card>
 </form>

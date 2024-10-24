@@ -1,3 +1,4 @@
-<app-calculator-input (calculateEvent)="onCalculateResults($event)" />
-
-<app-calculator-result-table [calculatedDataInput]="calculatedData()" />
+<main>
+  <app-calculator-input (calculateEvent)="onCalculateResults($event)" />
+  <app-calculator-result-table [calculatedDataInput]="calculatedData()" />
+</main>
