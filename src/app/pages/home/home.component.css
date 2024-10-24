@@ -11,9 +11,8 @@
 
 main {
   display: grid;
-  grid-template-columns: 1fr; /* Single column layout */
-  gap: 1rem; /* Gap between p-cards */
-  padding: 0;
+  grid-template-columns: 1fr;
+  margin: 1rem 0;
 }
 
 @media (min-width: 768px) {

@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 import { StocksService } from '../../services/stocks/stocks.service';
 import { NewsService } from '../../services/news/news.service';
 import { PanelModule } from 'primeng/panel';
+import { ButtonSaveLinkComponent } from '../../components/buttons/button-save-link/button-save-link.component';
 
 type DateRange =
   | 'oneDay'
@@ -35,6 +36,7 @@ type DateRange =
     TabMenuModule,
     CardModule,
     PanelModule,
+    ButtonSaveLinkComponent,
   ],
   templateUrl: './stock.component.html',
   styleUrls: ['./stock.component.css'],
@@ -57,12 +59,14 @@ export class StockComponent {
   activeItem: MenuItem | undefined;
   private routeSub: Subscription | undefined;
   private newsService = inject(NewsService);
+  tickerName = signal('');
 
   ngOnInit(): void {
     // Subscribe to route changes
     this.routeSub = this.route.params.subscribe((params) => {
       const ticker = params['ticker'];
       if (ticker) {
+        this.tickerName.set(ticker);
         this.fetchTickerInfo(ticker);
         this.fetchStockData(ticker, this.duration(), 'data1');
         this.fetchNewsArticle(ticker);

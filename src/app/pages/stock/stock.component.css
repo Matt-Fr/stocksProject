@@ -4,6 +4,12 @@
   flex-wrap: wrap;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .graphComponent {
   width: 100%;
   display: flex;
@@ -33,4 +39,11 @@ h1 {
     margin-left: 1rem;
     font-size: 1.3rem;
   }
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr; /* Single column layout */
+  grid-gap: 1rem;
+  padding: 0 1rem;
 }

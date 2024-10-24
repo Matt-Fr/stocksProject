@@ -1,54 +1,63 @@
 @if (data) {
-<h1 class="p-text-primary">{{ data.results.name }}</h1>
-} @if (data1.length && dataXaxis.length) {
-<p-card>
-  <app-graph
-    class="graphComponent"
-    [data1]="data1"
-    [data2]="data2"
-    [dataXaxis]="dataXaxis"
-    [dataName1]="nameTicker1"
-    [dataName2]="nameTicker2"
-    (durationChanged)="onDurationChanged($event)"
-  ></app-graph
-></p-card>
-
-<p-card header="Compare with an other ticker">
-  <app-search-bar (checkEnteredText)="submitInput($event)"></app-search-bar>
-  <p class="p-text-secondary">
-    Having trouble finding your ticker? You can check out
-    <a target="_blank" href="https://stockanalysis.com/stocks/">this link</a>
-    for a complete list of U.S. stocks. Please note, the website you're viewing
-    only displays U.S. stocks.
-  </p></p-card
->
+<header class="header">
+  <h1 class="p-text-primary">{{ data.results.name }}</h1>
+  <app-button-save-link
+    [text]="tickerName()"
+    [url]="'/' + tickerName()"
+  ></app-button-save-link>
+</header>
 }
-<p-card>
-  @if (!data) {
-  <h1>LOADING...</h1>
-  } @else {
-  <p><strong>Name:</strong> {{ data.results.name }}</p>
-  <p><strong>Ticker:</strong> {{ data.results.ticker }}</p>
-  <p><strong>Market:</strong> {{ data.results.market }}</p>
-  <p><strong>Description:</strong> {{ data.results.description }}</p>
-  <p>
-    <strong>Homepage:</strong>
-    <a [href]="data.results.homepage_url" target="_blank">{{
-      data.results.homepage_url
-    }}</a>
-  </p>
+<main>
+  @if (data1.length && dataXaxis.length) {
+  <p-card>
+    <app-graph
+      class="graphComponent"
+      [data1]="data1"
+      [data2]="data2"
+      [dataXaxis]="dataXaxis"
+      [dataName1]="nameTicker1"
+      [dataName2]="nameTicker2"
+      (durationChanged)="onDurationChanged($event)"
+    ></app-graph
+  ></p-card>
 
-  }</p-card
->
-@if (dataArticle().length) {
-<div class="containerNews">
-  @for (item of dataArticle(); track $index) {
-  <app-thumbnail-article
-    [title]="item.title"
-    [imageUrl]="item.image_url"
-    [url]="item.url"
-    [description]="item.description"
-  ></app-thumbnail-article>
+  <p-card header="Compare with an other ticker">
+    <app-search-bar (checkEnteredText)="submitInput($event)"></app-search-bar>
+    <p class="p-text-secondary">
+      Having trouble finding your ticker? You can check out
+      <a target="_blank" href="https://stockanalysis.com/stocks/">this link</a>
+      for a complete list of U.S. stocks. Please note, the website you're
+      viewing only displays U.S. stocks.
+    </p></p-card
+  >
   }
-</div>
-}
+  <p-card>
+    @if (!data) {
+    <h1>LOADING...</h1>
+    } @else {
+    <p><strong>Name:</strong> {{ data.results.name }}</p>
+    <p><strong>Ticker:</strong> {{ data.results.ticker }}</p>
+    <p><strong>Market:</strong> {{ data.results.market }}</p>
+    <p><strong>Description:</strong> {{ data.results.description }}</p>
+    <p>
+      <strong>Homepage:</strong>
+      <a [href]="data.results.homepage_url" target="_blank">{{
+        data.results.homepage_url
+      }}</a>
+    </p>
+
+    }</p-card
+  >
+  @if (dataArticle().length) {
+  <div class="containerNews">
+    @for (item of dataArticle(); track $index) {
+    <app-thumbnail-article
+      [title]="item.title"
+      [imageUrl]="item.image_url"
+      [url]="item.url"
+      [description]="item.description"
+    ></app-thumbnail-article>
+    }
+  </div>
+  }
+</main>
