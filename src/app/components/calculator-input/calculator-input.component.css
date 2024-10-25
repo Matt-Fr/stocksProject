@@ -43,3 +43,13 @@ button[pButton] {
   margin-left: auto;
   margin-right: auto;
 }
+
+form {
+  width: 100%; /* Full width on mobile and tablets */
+}
+
+@media (min-width: 768px) {
+  form {
+    width: 40rem; /* 40rem on larger screens */
+  }
+}

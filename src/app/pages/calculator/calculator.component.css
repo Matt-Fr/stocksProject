@@ -3,4 +3,5 @@ main {
   grid-template-columns: 1fr;
   margin: 1rem 0;
   grid-gap: 2rem;
+  justify-items: center;
 }
