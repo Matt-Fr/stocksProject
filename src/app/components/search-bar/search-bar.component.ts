@@ -24,7 +24,7 @@ export class SearchBarComponent {
 
   onSubmit() {
     // console.log('submitted!');
-    this.checkEnteredText.emit(this.enteredText());
+    this.checkEnteredText.emit('/ticker/' + this.enteredText());
   }
 
   onInputChange(event: Event) {

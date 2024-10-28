@@ -6,5 +6,5 @@ import { StockComponent } from './pages/stock/stock.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'calculator', component: CalculatorComponent },
-  { path: ':ticker', component: StockComponent },
+  { path: 'ticker/:ticker', component: StockComponent },
 ];

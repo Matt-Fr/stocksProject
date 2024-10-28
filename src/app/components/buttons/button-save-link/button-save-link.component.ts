@@ -21,7 +21,6 @@ export class ButtonSaveLinkComponent implements OnInit, OnDestroy {
   private subscription!: Subscription; // Subscription to manage observable
 
   ngOnInit() {
-    // Subscribe to the favoriteTickers$ observable and update the checked state
     this.subscription = this.favoriteTickersService.favoriteTickers$.subscribe(
       (tickers) => {
         this.checked = tickers.includes(this.text());
@@ -41,7 +40,7 @@ export class ButtonSaveLinkComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.subscription) {
-      this.subscription.unsubscribe(); // Unsubscribe to avoid memory leaks
+      this.subscription.unsubscribe();
     }
   }
 }
