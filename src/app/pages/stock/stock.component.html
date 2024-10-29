@@ -1,4 +1,16 @@
-@if (data) {
+@if (loading) {
+<main class="notFound-container">
+  <h1 class="p-text-primary notFound-container-h1">Loading...</h1>
+</main>
+} @else if (tickerNotFoundError) {
+<main class="notFound-container">
+  <h1 class="p-text-primary notFound-container-h1">Ticker Not Found</h1>
+  <h2 class="p-text-secondary notFound-container-h2">
+    We're sorry, but the ticker {{ tickerName() }} couldn't be located.
+  </h2>
+  <a routerLink="/" class="p-button font-bold">Return to Home</a>
+</main>
+} @else if (data) {
 <header class="header">
   <h1 class="p-text-primary">{{ data.results.name }}</h1>
   <app-button-save-link
@@ -63,10 +75,7 @@
 </main>
 } @else {
 <main class="notFound-container">
-  <h1 class="p-text-primary notFound-container-h1">Ticker Not Found</h1>
-  <h2 class="p-text-secondary notFound-container-h2">
-    We're sorry, but the ticker {{ tickerName() }} couldn't be located.
-  </h2>
+  <h1 class="p-text-primary notFound-container-h1">An error occured</h1>
   <a routerLink="/" class="p-button font-bold">Return to Home</a>
 </main>
 

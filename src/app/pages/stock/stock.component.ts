@@ -82,17 +82,37 @@ export class StockComponent {
     }
   }
 
+  loading: boolean = false;
+  tickerNotFoundError: boolean = false;
+  otherError: boolean = false;
+
   fetchTickerInfo(ticker: string) {
+    this.loading = true;
+    // Clear any previous error message
+
     const subscription = this.httpClient
       .get<StockInfoApiResponse>(
         `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=${environment.apiKeyPolygon}`
       )
       .subscribe({
         next: (resData) => {
-          // console.log(resData);
           this.data = resData;
+          this.loading = false;
+        },
+        error: (error) => {
+          this.loading = false;
+          if (error.status === 404) {
+            this.data = null;
+            this.tickerNotFoundError = true;
+          } else {
+            this.otherError = true;
+          }
+        },
+        complete: () => {
+          this.loading = false; // In case the request completes without an error
         },
       });
+
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
