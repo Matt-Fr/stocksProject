@@ -1,8 +1,11 @@
+<!-- loading -->
 @if (loading) {
 <main class="notFound-container">
   <h1 class="p-text-primary notFound-container-h1">Loading...</h1>
 </main>
-} @else if (tickerNotFoundError) {
+
+<!-- ticker not found -->
+} @if (tickerNotFoundError) {
 <main class="notFound-container">
   <h1 class="p-text-primary notFound-container-h1">Ticker Not Found</h1>
   <h2 class="p-text-secondary notFound-container-h2">
@@ -10,7 +13,10 @@
   </h2>
   <a routerLink="/" class="p-button font-bold">Return to Home</a>
 </main>
-} @else if (data) {
+}
+
+<!-- data found -->
+@if (data) {
 <header class="header">
   <h1 class="p-text-primary">{{ data.results.name }}</h1>
   <app-button-save-link
@@ -44,9 +50,6 @@
   >
   }
   <p-card>
-    @if (!data) {
-    <h1>LOADING...</h1>
-    } @else {
     <p><strong>Name:</strong> {{ data.results.name }}</p>
     <p><strong>Ticker:</strong> {{ data.results.ticker }}</p>
     <p><strong>Market:</strong> {{ data.results.market }}</p>
@@ -57,9 +60,8 @@
         data.results.homepage_url
       }}</a>
     </p>
+  </p-card>
 
-    }</p-card
-  >
   @if (dataArticle().length) {
   <div class="containerNews">
     @for (item of dataArticle(); track $index) {
