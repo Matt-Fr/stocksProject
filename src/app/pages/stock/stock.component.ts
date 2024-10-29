@@ -84,7 +84,6 @@ export class StockComponent {
 
   loading: boolean = false;
   tickerNotFoundError: boolean = false;
-  otherError: boolean = false;
 
   fetchTickerInfo(ticker: string) {
     this.loading = true;
@@ -104,8 +103,6 @@ export class StockComponent {
           if (error.status === 404) {
             this.data = null;
             this.tickerNotFoundError = true;
-          } else {
-            this.otherError = true;
           }
         },
         complete: () => {
