@@ -6,7 +6,7 @@
     [url]="tickerName()"
   ></app-button-save-link>
 </header>
-}
+
 <main>
   @if (data1.length && dataXaxis.length) {
   <p-card>
@@ -61,3 +61,13 @@
   </div>
   }
 </main>
+} @else {
+<main class="notFound-container">
+  <h1 class="p-text-primary notFound-container-h1">Ticker Not Found</h1>
+  <h2 class="p-text-secondary notFound-container-h2">
+    We're sorry, but the ticker {{ tickerName() }} couldn't be located.
+  </h2>
+  <a routerLink="/" class="p-button font-bold">Return to Home</a>
+</main>
+
+}
