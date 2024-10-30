@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class FavoriteTickersService {
   favoriteTickersSubject = new BehaviorSubject<string[]>([]);
-  favoriteTickers$ = this.favoriteTickersSubject.asObservable(); // Expose as observable
+  favoriteTickers$ = this.favoriteTickersSubject.asObservable();
 
   constructor() {
     const storedTickers = localStorage.getItem('favoriteTickers');
@@ -30,9 +30,5 @@ export class FavoriteTickersService {
       .filter((t) => t !== ticker);
     this.favoriteTickersSubject.next(updatedTickers);
     localStorage.setItem('favoriteTickers', JSON.stringify(updatedTickers));
-  }
-
-  isFavorite(ticker: string): boolean {
-    return this.favoriteTickersSubject.getValue().includes(ticker);
   }
 }

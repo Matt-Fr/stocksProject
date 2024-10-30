@@ -4,13 +4,16 @@ import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { FavoriteTickersService } from '../../../services/favoriteTickers/favorite-tickers.service';
 import { TooltipModule } from 'primeng/tooltip';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-button-save-link',
   standalone: true,
-  imports: [ButtonModule, RouterModule, TooltipModule],
+  imports: [ButtonModule, RouterModule, TooltipModule, ToastModule],
   templateUrl: './button-save-link.component.html',
   styleUrl: './button-save-link.component.css',
+  providers: [MessageService],
 })
 export class ButtonSaveLinkComponent implements OnInit, OnDestroy {
   text = input<string>('');
@@ -19,6 +22,14 @@ export class ButtonSaveLinkComponent implements OnInit, OnDestroy {
   checked = false; // Simple boolean instead of signal
   favoriteTickersService = inject(FavoriteTickersService); // Inject the service
   private subscription!: Subscription; // Subscription to manage observable
+  messageService = inject(MessageService);
+
+  tickerAddedToast(ticker: string) {
+    this.messageService.add({
+      severity: 'success',
+      detail: `${ticker} added to your favorite tickers`,
+    });
+  }
 
   ngOnInit() {
     this.subscription = this.favoriteTickersService.favoriteTickers$.subscribe(
@@ -35,6 +46,7 @@ export class ButtonSaveLinkComponent implements OnInit, OnDestroy {
       this.favoriteTickersService.removeTicker(ticker);
     } else {
       this.favoriteTickersService.addTicker(ticker);
+      this.tickerAddedToast(ticker);
     }
   }
 
