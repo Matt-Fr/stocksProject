@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { catchError, Observable, throwError } from 'rxjs';
+import { StockInfoApiResponse } from '../../models/StockInfo.model';
 
 type DateRange =
   | 'oneDay'
@@ -30,8 +31,6 @@ export class StocksService {
     this.currentApiKeyIndex =
       (this.currentApiKeyIndex + 1) % this.apiKeys.length;
   }
-
-  constructor() {}
 
   private getCurrentDateInUSEast(): string {
     const date = new Date();
@@ -109,6 +108,23 @@ export class StocksService {
                   `Failed after ${retryCount} retries: ${error.message}`
                 )
             );
+          }
+        })
+      );
+  }
+
+  fetchTickerInfo(ticker: string): Observable<StockInfoApiResponse | null> {
+    return this.httpClient
+      .get<StockInfoApiResponse>(
+        `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=${this.getApiKey()}`
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 404) {
+            // Return null if ticker is not found
+            return throwError(() => new Error('Ticker not found.'));
+          } else {
+            return throwError(() => new Error(error.message));
           }
         })
       );

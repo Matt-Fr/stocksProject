@@ -87,28 +87,22 @@ export class StockComponent {
 
   fetchTickerInfo(ticker: string) {
     this.loading = true;
-    // Clear any previous error message
+    this.tickerNotFoundError = false;
 
-    const subscription = this.httpClient
-      .get<StockInfoApiResponse>(
-        `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=${environment.apiKeyPolygon}`
-      )
-      .subscribe({
-        next: (resData) => {
-          this.data = resData;
-          this.loading = false;
-        },
-        error: (error) => {
-          this.loading = false;
-          if (error.status === 404) {
-            this.data = null;
-            this.tickerNotFoundError = true;
-          }
-        },
-        complete: () => {
-          this.loading = false; // In case the request completes without an error
-        },
-      });
+    const subscription = this.stocksService.fetchTickerInfo(ticker).subscribe({
+      next: (resData) => {
+        this.data = resData;
+        this.loading = false;
+      },
+      error: (error) => {
+        this.loading = false;
+        this.data = null;
+        this.tickerNotFoundError = error.message === 'Ticker not found.';
+      },
+      complete: () => {
+        this.loading = false;
+      },
+    });
 
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
@@ -124,8 +118,6 @@ export class StockComponent {
       .loadStockData(ticker, range)
       .subscribe({
         next: (resData) => {
-          // console.log(resData);
-
           const convertTimestampToDate = (timestamp: number): string => {
             const date = new Date(timestamp);
             // Format the date as needed, e.g., 'YYYY-MM-DD'
