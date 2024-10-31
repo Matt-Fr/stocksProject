@@ -28,6 +28,7 @@ export class ButtonSaveLinkComponent implements OnInit, OnDestroy {
     this.messageService.add({
       severity: 'success',
       detail: `${ticker} added to your favorite tickers`,
+      life: 1800,
     });
   }
 
