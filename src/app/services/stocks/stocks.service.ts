@@ -114,19 +114,8 @@ export class StocksService {
   }
 
   fetchTickerInfo(ticker: string): Observable<StockInfoApiResponse | null> {
-    return this.httpClient
-      .get<StockInfoApiResponse>(
-        `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=${this.getApiKey()}`
-      )
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          if (error.status === 404) {
-            // Return null if ticker is not found
-            return throwError(() => new Error('Ticker not found.'));
-          } else {
-            return throwError(() => new Error(error.message));
-          }
-        })
-      );
+    return this.httpClient.get<StockInfoApiResponse>(
+      `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=${this.getApiKey()}`
+    );
   }
 }

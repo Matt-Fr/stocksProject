@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { environment } from '../../../environments/environment';
-import { StockInfoApiResponse } from '../../models/StockInfo.model';
+import { DateRange, StockInfoApiResponse } from '../../models/StockInfo.model';
 import { GraphComponent } from '../../components/graph/graph.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
-import { ArticleNews, HomeNewsarticle } from '../../models/ArticleNews.model';
+import { ArticleNews } from '../../models/ArticleNews.model';
 import { ThumbnailArticleComponent } from '../../components/thumbnail-article/thumbnail-article.component';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuItem } from 'primeng/api';
@@ -15,15 +14,6 @@ import { StocksService } from '../../services/stocks/stocks.service';
 import { NewsService } from '../../services/news/news.service';
 import { PanelModule } from 'primeng/panel';
 import { ButtonSaveLinkComponent } from '../../components/buttons/button-save-link/button-save-link.component';
-
-type DateRange =
-  | 'oneDay'
-  | 'fiveDays'
-  | 'oneMonth'
-  | 'threeMonths'
-  | 'sixMonths'
-  | 'oneYear'
-  | 'fiveYears';
 
 @Component({
   selector: 'app-stock',
@@ -60,6 +50,7 @@ export class StockComponent {
   private routeSub: Subscription | undefined;
   private newsService = inject(NewsService);
   tickerName = signal('');
+  errorMessage = '';
 
   ngOnInit(): void {
     // Subscribe to route changes
@@ -97,7 +88,19 @@ export class StockComponent {
       error: (error) => {
         this.loading = false;
         this.data = null;
-        this.tickerNotFoundError = error.message === 'Ticker not found.';
+        console.error('Error object:', error);
+
+        const errorMessage = error.message || ''; // Extract message from error
+
+        // Check for specific status in the error message string
+        if (errorMessage.includes('429')) {
+          this.errorMessage =
+            'Too many requests. Please wait one minute before refreshing.';
+        } else if (errorMessage.includes('404')) {
+          this.errorMessage = `We're sorry, but the ticker ${this.tickerName()} couldn't be located.`;
+        } else {
+          this.errorMessage = 'An error occurred. Please try again later.';
+        }
       },
       complete: () => {
         this.loading = false;

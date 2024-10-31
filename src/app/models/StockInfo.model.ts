@@ -43,3 +43,12 @@ export interface StockInfoApiResponse {
   results: StockInfoData;
   status: string;
 }
+
+export type DateRange =
+  | 'oneDay'
+  | 'fiveDays'
+  | 'oneMonth'
+  | 'threeMonths'
+  | 'sixMonths'
+  | 'oneYear'
+  | 'fiveYears';
