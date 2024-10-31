@@ -32,6 +32,14 @@ export class ButtonSaveLinkComponent implements OnInit, OnDestroy {
     });
   }
 
+  tickerRemovedToast(ticker: string) {
+    this.messageService.add({
+      severity: 'info',
+      detail: `${ticker} removed from your favorite tickers `,
+      life: 1200,
+    });
+  }
+
   ngOnInit() {
     this.subscription = this.favoriteTickersService.favoriteTickers$.subscribe(
       (tickers) => {
@@ -45,6 +53,7 @@ export class ButtonSaveLinkComponent implements OnInit, OnDestroy {
 
     if (this.checked) {
       this.favoriteTickersService.removeTicker(ticker);
+      this.tickerRemovedToast(ticker);
     } else {
       this.favoriteTickersService.addTicker(ticker);
       this.tickerAddedToast(ticker);
