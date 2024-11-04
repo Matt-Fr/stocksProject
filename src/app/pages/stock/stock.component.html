@@ -37,7 +37,16 @@
   ></p-card>
 
   <p-card header="Compare with an other ticker">
-    <app-search-bar (checkEnteredText)="submitInput($event)"></app-search-bar>
+    <div>
+      <app-search-bar (checkEnteredText)="submitInput($event)"></app-search-bar>
+      <p>or compare with your favorite tickers</p>
+      <div>
+        @for (ticker of favoriteTickers(); track $index) {
+        <p-button (click)="selectFavoriteTicker(ticker)">{{ ticker }}</p-button
+        >}
+      </div>
+    </div>
+
     <p class="p-text-secondary">
       Having trouble finding your ticker? You can check out
       <a target="_blank" href="https://stockanalysis.com/stocks/">this link</a>

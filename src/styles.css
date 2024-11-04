@@ -5,3 +5,9 @@
 body {
   margin: 0;
 }
+
+/* @media (max-width: 768px) {
+  .p-card .p-card-body {
+    padding: 0rem !important;
+  }
+} */

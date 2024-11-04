@@ -14,6 +14,7 @@ import { StocksService } from '../../services/stocks/stocks.service';
 import { NewsService } from '../../services/news/news.service';
 import { PanelModule } from 'primeng/panel';
 import { ButtonSaveLinkComponent } from '../../components/buttons/button-save-link/button-save-link.component';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-stock',
@@ -27,6 +28,7 @@ import { ButtonSaveLinkComponent } from '../../components/buttons/button-save-li
     CardModule,
     PanelModule,
     ButtonSaveLinkComponent,
+    ButtonModule,
   ],
   templateUrl: './stock.component.html',
   styleUrls: ['./stock.component.css'],
@@ -51,9 +53,9 @@ export class StockComponent {
   private newsService = inject(NewsService);
   tickerName = signal('');
   errorMessage = '';
+  favoriteTickers = signal([]);
 
   ngOnInit(): void {
-    // Subscribe to route changes
     this.routeSub = this.route.params.subscribe((params) => {
       const ticker = params['ticker'];
       if (ticker) {
@@ -61,6 +63,12 @@ export class StockComponent {
         this.fetchTickerInfo(ticker);
         this.fetchStockData(ticker, this.duration(), 'data1');
         this.fetchNewsArticle(ticker);
+        const storedTickers = localStorage.getItem('favoriteTickers');
+        this.favoriteTickers.set(
+          storedTickers ? JSON.parse(storedTickers) : []
+        );
+        console.log(this.favoriteTickers());
+        console.log(this.tickerName());
       } else {
         console.error('Ticker not found in the URL');
       }
@@ -71,6 +79,12 @@ export class StockComponent {
     if (this.routeSub) {
       this.routeSub.unsubscribe();
     }
+  }
+
+  // Method to fetch data for selected favorite ticker and set it as data2
+  selectFavoriteTicker(ticker: string) {
+    this.enteredText.set(ticker);
+    this.fetchStockData(ticker, this.duration(), 'data2');
   }
 
   loading: boolean = false;
