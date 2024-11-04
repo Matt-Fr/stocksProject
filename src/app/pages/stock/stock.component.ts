@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DateRange, StockInfoApiResponse } from '../../models/StockInfo.model';
 import { GraphComponent } from '../../components/graph/graph.component';
@@ -34,7 +34,6 @@ import { ButtonModule } from 'primeng/button';
   styleUrls: ['./stock.component.css'],
 })
 export class StockComponent {
-  private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
   private route = inject(ActivatedRoute);
   data: StockInfoApiResponse | null = null;
@@ -54,6 +53,9 @@ export class StockComponent {
   tickerName = signal('');
   errorMessage = '';
   favoriteTickers = signal([]);
+  filteredFavoriteTickers = computed(() =>
+    this.favoriteTickers().filter((ticker) => ticker !== this.tickerName())
+  );
 
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe((params) => {
@@ -67,8 +69,8 @@ export class StockComponent {
         this.favoriteTickers.set(
           storedTickers ? JSON.parse(storedTickers) : []
         );
+        console.log(this.filteredFavoriteTickers());
         console.log(this.favoriteTickers());
-        console.log(this.tickerName());
       } else {
         console.error('Ticker not found in the URL');
       }

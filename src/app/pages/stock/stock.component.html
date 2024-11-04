@@ -37,14 +37,37 @@
   ></p-card>
 
   <p-card header="Compare with an other ticker">
-    <div>
+    <div class="containerTickers">
       <app-search-bar (checkEnteredText)="submitInput($event)"></app-search-bar>
-      <p>or compare with your favorite tickers</p>
+      @if (filteredFavoriteTickers().length > 0) {
       <div>
-        @for (ticker of favoriteTickers(); track $index) {
-        <p-button (click)="selectFavoriteTicker(ticker)">{{ ticker }}</p-button
+        @for (ticker of filteredFavoriteTickers(); track $index) {
+        <p-button [rounded]="true" (click)="selectFavoriteTicker(ticker)">{{
+          ticker
+        }}</p-button
         >}
       </div>
+      } @else {
+      <div>
+        @if (tickerName() !== 'AAPL') {
+        <p-button [rounded]="true" (click)="selectFavoriteTicker('AAPL')"
+          >AAPL</p-button
+        >
+        } @if (tickerName() !== 'MSFT') {
+        <p-button [rounded]="true" (click)="selectFavoriteTicker('MSFT')"
+          >MSFT</p-button
+        >
+        } @if (tickerName() !== 'NVDA') {
+        <p-button [rounded]="true" (click)="selectFavoriteTicker('NVDA')"
+          >NVDA</p-button
+        >
+        }@if (tickerName() !== 'GOOGL') {
+        <p-button [rounded]="true" (click)="selectFavoriteTicker('GOOGL')"
+          >GOOGL</p-button
+        >
+        }
+      </div>
+      }
     </div>
 
     <p class="p-text-secondary">
