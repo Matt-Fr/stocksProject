@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DateRange, StockInfoApiResponse } from '../../models/StockInfo.model';
@@ -15,6 +14,7 @@ import { NewsService } from '../../services/news/news.service';
 import { PanelModule } from 'primeng/panel';
 import { ButtonSaveLinkComponent } from '../../components/buttons/button-save-link/button-save-link.component';
 import { ButtonModule } from 'primeng/button';
+import { TickerInfoComponent } from './components/ticker-info/ticker-info.component';
 
 @Component({
   selector: 'app-stock',
@@ -29,6 +29,7 @@ import { ButtonModule } from 'primeng/button';
     PanelModule,
     ButtonSaveLinkComponent,
     ButtonModule,
+    TickerInfoComponent,
   ],
   templateUrl: './stock.component.html',
   styleUrls: ['./stock.component.css'],
