@@ -10,11 +10,11 @@ import { MenuItem } from 'primeng/api';
 import { CardModule } from 'primeng/card';
 import { Subscription } from 'rxjs';
 import { StocksService } from '../../services/stocks/stocks.service';
-import { NewsService } from '../../services/news/news.service';
 import { PanelModule } from 'primeng/panel';
 import { ButtonSaveLinkComponent } from '../../components/buttons/button-save-link/button-save-link.component';
 import { ButtonModule } from 'primeng/button';
 import { TickerInfoComponent } from './components/ticker-info/ticker-info.component';
+import { NewsContainerComponent } from '../../components/news-container/news-container.component';
 
 @Component({
   selector: 'app-stock',
@@ -30,6 +30,7 @@ import { TickerInfoComponent } from './components/ticker-info/ticker-info.compon
     ButtonSaveLinkComponent,
     ButtonModule,
     TickerInfoComponent,
+    NewsContainerComponent,
   ],
   templateUrl: './stock.component.html',
   styleUrls: ['./stock.component.css'],
@@ -50,7 +51,6 @@ export class StockComponent {
   items: MenuItem[] | undefined;
   activeItem: MenuItem | undefined;
   private routeSub: Subscription | undefined;
-  private newsService = inject(NewsService);
   tickerName = signal('');
   errorMessage = '';
   favoriteTickers = signal([]);
@@ -65,7 +65,6 @@ export class StockComponent {
         this.tickerName.set(ticker);
         this.fetchTickerInfo(ticker);
         this.fetchStockData(ticker, this.duration(), 'data1');
-        this.fetchNewsArticle(ticker);
         const storedTickers = localStorage.getItem('favoriteTickers');
         this.favoriteTickers.set(
           storedTickers ? JSON.parse(storedTickers) : []
@@ -182,16 +181,5 @@ export class StockComponent {
         this.fetchStockData(this.enteredText(), range, 'data2');
       }
     }
-  }
-
-  fetchNewsArticle(ticker: string) {
-    const subscription = this.newsService.fetchNewsArticle(ticker).subscribe({
-      next: (resData) => {
-        this.dataArticle.set(resData.data);
-      },
-    });
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
-    });
   }
 }

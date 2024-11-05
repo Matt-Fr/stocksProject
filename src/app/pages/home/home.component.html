@@ -23,17 +23,5 @@
     </div>
   </p-card>
 
-  <p-card header="News related to finance">
-    <div class="containerNews">
-      @if (dataNews().length) { @for (item of dataNews(); track $index) {
-      <app-thumbnail-article
-        [title]="item.title"
-        [imageUrl]="item.image_url"
-        [url]="item.url"
-        [description]="item.description"
-      />
-
-      } }
-    </div>
-  </p-card>
+  <app-news-container [ticker]="'IVV'" />
 </main>

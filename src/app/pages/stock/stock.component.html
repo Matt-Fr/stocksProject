@@ -80,18 +80,6 @@
   }
 
   <app-ticker-info [data]="data" />
-
-  @if (dataArticle().length) {
-  <div class="containerNews">
-    @for (item of dataArticle(); track $index) {
-    <app-thumbnail-article
-      [title]="item.title"
-      [imageUrl]="item.image_url"
-      [url]="item.url"
-      [description]="item.description"
-    ></app-thumbnail-article>
-    }
-  </div>
-  }
+  <app-news-container [ticker]="tickerName()" />
 </main>
 }
