@@ -103,7 +103,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     return favoriteTickers.map((ticker) => ({
       label: ticker,
       command: () => {
-        this.router.navigate([`/${ticker}`]);
+        this.router.navigate([`/ticker/${ticker}`]);
       },
       items: [
         {
