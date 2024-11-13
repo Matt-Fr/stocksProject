@@ -51,4 +51,4 @@ export type DateRange =
   | 'threeMonths'
   | 'sixMonths'
   | 'oneYear'
-  | 'fiveYears';
+  | 'twoYears';

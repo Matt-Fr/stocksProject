@@ -19,7 +19,7 @@ type DateRange =
   | 'threeMonths'
   | 'sixMonths'
   | 'oneYear'
-  | 'fiveYears';
+  | 'twoYears';
 
 @Component({
   selector: 'app-graph',
@@ -78,7 +78,7 @@ export class GraphComponent implements OnChanges {
         },
         { label: '6 Months', command: () => this.selectDuration('sixMonths') },
         { label: '1 Year', command: () => this.selectDuration('oneYear') },
-        { label: '5 Years', command: () => this.selectDuration('fiveYears') },
+        { label: '2 Years', command: () => this.selectDuration('twoYears') },
       ];
     }
 
