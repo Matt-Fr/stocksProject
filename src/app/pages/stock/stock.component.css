@@ -43,29 +43,34 @@ h1 {
 
 main {
   display: grid;
-  grid-template-columns: 1fr; /* Single column layout */
-  grid-gap: 1rem;
-  padding: 0 1rem;
+  grid-template-columns: 1fr; /* Single column by default */
+  grid-gap: 1rem; /* Space between elements */
+  padding: 0 1rem; /* Consistent padding on both sides */
+  box-sizing: border-box; /* Ensures padding is part of the container */
 }
 
-.notFound-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  text-align: center;
+/* Specific styles for cards */
+.chart-card {
+  grid-column: span 1; /* Full width by default */
+}
+.compare-card {
+  grid-column: span 1; /* Full width by default */
 }
 
-.notFound-container-h1 {
-  font-size: 2rem;
-  margin: 0;
-}
-
-.notFound-container-h2 {
-  font-size: 1.5rem;
-}
-
-.containerTickers {
-  display: flex;
+/* Adjust layout for desktops (1024px and up) */
+@media (min-width: 1024px) {
+  main {
+    grid-template-columns: calc(70% - 0.5rem) calc(30% - 0.5rem);
+    /* Two columns with adjusted widths */
+  }
+  .chart-card {
+    grid-column: span 1; /* 70% column */
+  }
+  .compare-card {
+    grid-column: span 1; /* 30% column */
+  }
+  app-ticker-info,
+  app-news-container {
+    grid-column: span 2; /* Full width for rows below */
+  }
 }

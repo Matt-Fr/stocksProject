@@ -18,10 +18,6 @@ export class NewsContainerComponent {
 
   ticker = input('');
 
-  ngOnInit(): void {
-    this.fetchNewsArticle(this.ticker());
-  }
-
   fetchNewsArticle(ticker: string) {
     const subscription = this.newsService.fetchNewsArticle(ticker).subscribe({
       next: (resData) => {

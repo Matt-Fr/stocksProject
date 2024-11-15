@@ -24,7 +24,7 @@
 
 <main>
   @if (data1.length && dataXaxis.length) {
-  <p-card>
+  <p-card class="chart-card">
     <app-graph
       class="graphComponent"
       [data1]="data1"
@@ -33,19 +33,19 @@
       [dataName1]="nameTicker1"
       [dataName2]="nameTicker2"
       (durationChanged)="onDurationChanged($event)"
-    ></app-graph
-  ></p-card>
+    ></app-graph>
+  </p-card>
 
-  <p-card header="Compare with an other ticker">
+  <p-card class="compare-card" header="Compare with another ticker">
     <div class="containerTickers">
       <app-search-bar (checkEnteredText)="submitInput($event)"></app-search-bar>
       @if (filteredFavoriteTickers().length > 0) {
       <div>
         @for (ticker of filteredFavoriteTickers(); track $index) {
-        <p-button [rounded]="true" (click)="selectFavoriteTicker(ticker)">{{
-          ticker
-        }}</p-button
-        >}
+        <p-button [rounded]="true" (click)="selectFavoriteTicker(ticker)">
+          {{ ticker }}
+        </p-button>
+        }
       </div>
       } @else {
       <div>
@@ -61,7 +61,7 @@
         <p-button [rounded]="true" (click)="selectFavoriteTicker('NVDA')"
           >NVDA</p-button
         >
-        }@if (tickerName() !== 'GOOGL') {
+        } @if (tickerName() !== 'GOOGL') {
         <p-button [rounded]="true" (click)="selectFavoriteTicker('GOOGL')"
           >GOOGL</p-button
         >
@@ -69,17 +69,16 @@
       </div>
       }
     </div>
-
     <p class="p-text-secondary">
       Having trouble finding your ticker? You can check out
       <a target="_blank" href="https://stockanalysis.com/stocks/">this link</a>
       for a complete list of U.S. stocks. Please note, the website you're
       viewing only displays U.S. stocks.
-    </p></p-card
-  >
+    </p>
+  </p-card>
   }
 
-  <app-ticker-info [data]="data" />
-  <app-news-container [ticker]="tickerName()" />
+  <app-ticker-info [data]="data"></app-ticker-info>
+  <app-news-container [ticker]="tickerName()"></app-news-container>
 </main>
 }
