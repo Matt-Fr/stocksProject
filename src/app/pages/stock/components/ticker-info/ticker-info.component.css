@@ -1,0 +1,11 @@
+:host ::ng-deep .p-card .p-card-body .p-card-content {
+  padding: 0;
+}
+
+:host ::ng-deep .description {
+  overflow-y: scroll;
+
+  max-height: 8rem; /* Adjust based on your font size and line height */
+  line-height: 1.5rem; /* Adjust to match your design */
+  padding-right: 1rem; /* Add padding to ensure scrollbar does not overlap text */
+}

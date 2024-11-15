@@ -1,12 +1,14 @@
 <p-card>
+  <!-- Content -->
+
   @if (data().results.name) {
   <p><strong>Name:</strong> {{ data().results.name }}</p>
-  } @if (data().results.ticker) {
-  <p><strong>Ticker:</strong> {{ data().results.ticker }}</p>
   } @if (data().results.market) {
   <p><strong>Market:</strong> {{ data().results.market }}</p>
   } @if (data().results.description) {
-  <p><strong>Description:</strong> {{ data().results.description }}</p>
+  <p class="description">
+    <strong>Description:</strong> {{ data().results.description }}
+  </p>
   } @if (data().results.homepage_url) {
   <p>
     <strong>Homepage:</strong>
