@@ -9,3 +9,19 @@
   line-height: 1.5rem; /* Adjust to match your design */
   padding-right: 1rem; /* Add padding to ensure scrollbar does not overlap text */
 }
+:host ::ng-deep .description::-webkit-scrollbar {
+  width: 8px; /* Set the width of the scrollbar */
+}
+:host ::ng-deep .description::-webkit-scrollbar-thumb {
+  background-color: #3b82f6; /* Set the scrollbar thumb color */
+  border-radius: 4px; /* Add rounded corners */
+}
+
+:host ::ng-deep .description::-webkit-scrollbar-thumb:hover {
+  background-color: gold; /* Change color on hover */
+}
+
+:host ::ng-deep .description::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Set the scrollbar track color */
+  border-radius: 4px; /* Add rounded corners */
+}
