@@ -1,16 +1,17 @@
 import {
   Component,
-  EventEmitter,
   HostListener,
   Input,
   OnChanges,
   Output,
   SimpleChanges,
+  EventEmitter,
 } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { NgxEchartsDirective, provideEcharts } from 'ngx-echarts';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuItem } from 'primeng/api';
+import { ViewChild } from '@angular/core';
 
 type DateRange =
   | 'oneDay'
@@ -37,15 +38,21 @@ export class GraphComponent implements OnChanges {
   @Input() dataName2: string = '';
   @Output() durationChanged = new EventEmitter<DateRange>();
 
+  @ViewChild(NgxEchartsDirective) chart!: NgxEchartsDirective;
+
   items: MenuItem[] = [];
   activeItem: MenuItem | undefined;
 
   options!: EChartsOption;
 
-  // Add a listener to detect window resizing
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
+  @HostListener('window:resize')
+  onResize() {
     this.setMenuItems();
+
+    // Trigger chart resize
+    if (this.chart) {
+      this.chart.resize();
+    }
   }
 
   ngOnInit(): void {
