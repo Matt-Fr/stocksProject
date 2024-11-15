@@ -39,17 +39,13 @@
   <p-card class="compare-card" header="Compare with another ticker">
     <div class="containerTickers">
       <app-search-bar (checkEnteredText)="submitInput($event)"></app-search-bar>
-      @if (filteredFavoriteTickers().length > 0) {
-      <div>
-        @for (ticker of filteredFavoriteTickers(); track $index) {
+      <div class="my-3 w-full flex">
+        @if (filteredFavoriteTickers().length > 0) { @for (ticker of
+        filteredFavoriteTickers(); track $index) {
         <p-button [rounded]="true" (click)="selectFavoriteTicker(ticker)">
           {{ ticker }}
         </p-button>
-        }
-      </div>
-      } @else {
-      <div>
-        @if (tickerName() !== 'AAPL') {
+        } } @else { @if (tickerName() !== 'AAPL') {
         <p-button [rounded]="true" (click)="selectFavoriteTicker('AAPL')"
           >AAPL</p-button
         >
@@ -65,15 +61,14 @@
         <p-button [rounded]="true" (click)="selectFavoriteTicker('GOOGL')"
           >GOOGL</p-button
         >
-        }
+        } }
       </div>
-      }
     </div>
-    <p class="p-text-secondary">
+    <span class="p-text-secondary">
       Check out
       <a target="_blank" href="https://stockanalysis.com/stocks/">this link</a>
       for a complete list of U.S. stocks.
-    </p>
+    </span>
   </p-card>
   }
 
