@@ -83,6 +83,12 @@ export class StockComponent {
     }
   }
 
+  headerText = computed(() =>
+    this.filteredFavoriteTickers().length > 0
+      ? 'Compare with your tickers'
+      : 'Compare with another ticker'
+  );
+
   // Method to fetch data for selected favorite ticker and set it as data2
   selectFavoriteTicker(ticker: string) {
     this.enteredText.set(ticker);

@@ -36,10 +36,10 @@
     ></app-graph>
   </p-card>
 
-  <p-card class="compare-card" header="Compare with another ticker">
+  <p-card class="compare-card" [header]="headerText()">
     <div class="containerTickers">
       <app-search-bar (checkEnteredText)="submitInput($event)"></app-search-bar>
-      <div class="my-3 w-full flex">
+      <div class="my-3 w-full flex flex-wrap">
         @if (filteredFavoriteTickers().length > 0) { @for (ticker of
         filteredFavoriteTickers(); track $index) {
         <p-button [rounded]="true" (click)="selectFavoriteTicker(ticker)">
