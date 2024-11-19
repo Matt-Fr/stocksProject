@@ -24,7 +24,7 @@
 
 <main>
   @if (data1.length && dataXaxis.length) {
-  <p-card class="chart-card">
+  <p-card class="chart-card" [style]="{ height: '100%' }">
     <app-graph
       class="graphComponent"
       [data1]="data1"

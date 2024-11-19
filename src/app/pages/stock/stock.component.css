@@ -85,10 +85,6 @@ h1 {
     grid-row: 1 / 3; /* Spans from the first to the second row */
   }
 
-  :host ::ng-deep .chart-card > div {
-    height: 100%;
-  }
-
   .compare-card {
     grid-column: 2; /* Second column */
     grid-row: 1; /* First row */
