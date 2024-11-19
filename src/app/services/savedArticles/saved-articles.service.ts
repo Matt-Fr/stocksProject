@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 interface Article {
@@ -21,6 +21,8 @@ export class SavedArticleService {
       this.savedArticlesSubject.next(JSON.parse(saved));
     }
   }
+
+  savedArticles = signal<Article[]>([]);
 
   saveArticle(article: Article): void {
     const currentArticles = this.savedArticlesSubject.getValue();
