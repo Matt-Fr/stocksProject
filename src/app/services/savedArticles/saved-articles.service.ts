@@ -1,5 +1,4 @@
 import { Injectable, signal } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
 interface Article {
   title: string | undefined;
@@ -12,18 +11,32 @@ interface Article {
   providedIn: 'root',
 })
 export class SavedArticleService {
-  private savedArticlesSubject = new BehaviorSubject<Article[]>([]);
-  savedArticles$ = this.savedArticlesSubject.asObservable();
+  private readonly localStorageKey = 'savedArticles';
 
-  constructor() {
-    const saved = localStorage.getItem('savedArticles');
-    if (saved) {
-      this.savedArticlesSubject.next(JSON.parse(saved));
-    }
+  // Signal to store articles
+  public savedArticles = signal<Article[]>(this.loadFromLocalStorage());
+
+  /**
+   * Load articles from local storage
+   */
+  private loadFromLocalStorage(): Article[] {
+    const storedArticles = localStorage.getItem(this.localStorageKey);
+    return storedArticles ? JSON.parse(storedArticles) : [];
   }
 
-  public savedArticles = signal<Article[]>([]);
+  /**
+   * Save articles to local storage
+   */
+  private saveToLocalStorage(): void {
+    localStorage.setItem(
+      this.localStorageKey,
+      JSON.stringify(this.savedArticles())
+    );
+  }
 
+  /**
+   * Add or update an article
+   */
   addArticle(updatedArticle: Article): void {
     const currentArticles = this.savedArticles();
 
@@ -32,46 +45,32 @@ export class SavedArticleService {
       (article) => article.title === updatedArticle.title
     );
 
-    // If the article is not already saved, add it
     if (!isAlreadySaved) {
+      // Add the article if not already saved
       this.savedArticles.set([...currentArticles, updatedArticle]);
     } else {
-      // If it exists, update it
+      // Update the article if it already exists
       const updatedArticles = currentArticles.map((article) =>
         article.title === updatedArticle.title ? updatedArticle : article
       );
       this.savedArticles.set(updatedArticles);
     }
+
+    // Persist to local storage
+    this.saveToLocalStorage();
   }
 
+  /**
+   * Remove an article
+   */
   removeArticle(articleToRemove: Article): void {
     const currentArticles = this.savedArticles();
     const updatedArticles = currentArticles.filter(
       (article) => article.title !== articleToRemove.title
     );
     this.savedArticles.set(updatedArticles);
-  }
 
-  // saveArticle(article: Article): void {
-  //   const currentArticles = this.savedArticlesSubject.getValue();
-  //   if (!currentArticles.some((a) => a.url === article.url)) {
-  //     const updatedArticles = [...currentArticles, article];
-  //     this.savedArticlesSubject.next(updatedArticles);
-  //     localStorage.setItem('savedArticles', JSON.stringify(updatedArticles));
-  //   }
-  // }
-
-  // removeArticle(article: Article): void {
-  //   const updatedArticles = this.savedArticlesSubject
-  //     .getValue()
-  //     .filter((a) => a.url !== article.url);
-  //   this.savedArticlesSubject.next(updatedArticles);
-  //   localStorage.setItem('savedArticles', JSON.stringify(updatedArticles));
-  // }
-
-  isArticleSaved(article: Article): boolean {
-    return this.savedArticlesSubject
-      .getValue()
-      .some((a) => a.url === article.url);
+    // Persist to local storage
+    this.saveToLocalStorage();
   }
 }

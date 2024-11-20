@@ -20,7 +20,8 @@
   </ng-template>
   <!-- Content for  sidebar -->
 
-  @if (savedArticles.length) { @for (article of savedArticles; track $index) {
+  @if (savedArticles().length) { @for (article of savedArticles(); track $index)
+  {
   <app-thumbnail-article
     [title]="article.title"
     [description]="article.description"

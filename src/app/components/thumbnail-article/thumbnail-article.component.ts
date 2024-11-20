@@ -27,32 +27,7 @@ export class ThumbnailArticleComponent {
   private articleService = inject(SavedArticleService);
   isSaved = signal<boolean>(false);
 
-  ngOnInit() {
-    const article: Article = {
-      title: this.title(),
-      url: this.url(),
-      imageUrl: this.imageUrl(),
-      description: this.description(),
-    };
-    this.isSaved.set(this.articleService.isArticleSaved(article));
-  }
-
-  // saveArticle() {
-  //   const article: Article = {
-  //     title: this.title(),
-  //     url: this.url(),
-  //     imageUrl: this.imageUrl(),
-  //     description: this.description(),
-  //   };
-
-  //   if (this.isSaved()) {
-  //     this.articleService.removeArticle(article);
-  //   } else {
-  //     this.articleService.saveArticle(article);
-  //   }
-
-  //   this.isSaved.set(!this.isSaved());
-  // }
+  ngOnInit() {}
 
   handleSaveClick(event: MouseEvent) {
     event.preventDefault();

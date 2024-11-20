@@ -8,13 +8,6 @@ import { SidebarModule } from 'primeng/sidebar';
 import { SavedArticleService } from '../../services/savedArticles/saved-articles.service';
 import { ThumbnailArticleComponent } from '../thumbnail-article/thumbnail-article.component';
 
-interface Article {
-  title: string | undefined;
-  url: string | undefined;
-  imageUrl: string | undefined;
-  description: string | undefined;
-}
-
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -29,10 +22,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   items: MenuItem[] = [];
   private favoriteSubscription!: Subscription;
-  private articleSubscription!: Subscription;
 
   sidebarVisible: boolean = false;
-  savedArticles: Article[] = []; // Array to store saved articles
+  savedArticles = this.articleService.savedArticles;
 
   ngOnInit() {
     // Subscribe to favorite tickers updates
@@ -40,13 +32,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.favoriteTickersService.favoriteTickers$.subscribe(() => {
         this.updateMenuItems();
       });
-
-    // Subscribe to saved articles updates
-    this.articleSubscription = this.articleService.savedArticles$.subscribe(
-      (articles) => {
-        this.savedArticles = articles;
-      }
-    );
 
     this.updateMenuItems();
   }
@@ -121,10 +106,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.favoriteSubscription) {
       this.favoriteSubscription.unsubscribe();
-    }
-
-    if (this.articleSubscription) {
-      this.articleSubscription.unsubscribe();
     }
   }
 }
