@@ -35,7 +35,7 @@ export class SavedArticleService {
   }
 
   /**
-   * Add or update an article
+   * Add an article if not already saved
    */
   addArticle(updatedArticle: Article): void {
     const currentArticles = this.savedArticles();

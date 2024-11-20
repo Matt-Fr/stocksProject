@@ -1,4 +1,4 @@
-import { Component, input, inject, signal } from '@angular/core';
+import { Component, input, inject, signal, computed } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { SavedArticleService } from '../../services/savedArticles/saved-articles.service';
@@ -25,7 +25,14 @@ export class ThumbnailArticleComponent {
   description = input<string>();
 
   private articleService = inject(SavedArticleService);
-  isSaved = signal<boolean>(false);
+
+  // Computed property to check if the article is saved
+  isSaved = computed(() => {
+    const articleTitle = this.title();
+    return this.articleService
+      .savedArticles()
+      .some((savedArticle) => savedArticle.title === articleTitle);
+  });
 
   ngOnInit() {}
 

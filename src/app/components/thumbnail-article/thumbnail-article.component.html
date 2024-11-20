@@ -1,5 +1,8 @@
 <a class="card flex justify-content-center" href="{{ url() }}" target="_blank">
-  <p-card header="{{ title() }}" [style]="{ width: '360px' }">
+  <p-card
+    header="{{ title() }}"
+    [style]="{ width: '360px', marginTop: '1rem' }"
+  >
     <ng-template pTemplate="header">
       <div class="img-container">
         <img alt="Card" ngSrc="{{ imageUrl() }}" fill class="img" />
