@@ -37,7 +37,27 @@ export class ThumbnailArticleComponent {
     this.isSaved.set(this.articleService.isArticleSaved(article));
   }
 
-  saveArticle() {
+  // saveArticle() {
+  //   const article: Article = {
+  //     title: this.title(),
+  //     url: this.url(),
+  //     imageUrl: this.imageUrl(),
+  //     description: this.description(),
+  //   };
+
+  //   if (this.isSaved()) {
+  //     this.articleService.removeArticle(article);
+  //   } else {
+  //     this.articleService.saveArticle(article);
+  //   }
+
+  //   this.isSaved.set(!this.isSaved());
+  // }
+
+  handleSaveClick(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
     const article: Article = {
       title: this.title(),
       url: this.url(),
@@ -45,18 +65,21 @@ export class ThumbnailArticleComponent {
       description: this.description(),
     };
 
-    if (this.isSaved()) {
+    const isAlreadySaved = this.articleService
+      .savedArticles()
+      .some((savedArticle) => savedArticle.title === article.title);
+
+    if (isAlreadySaved) {
+      // Remove the article if it's already saved
       this.articleService.removeArticle(article);
+      console.log(`Article removed: ${article.title}`);
     } else {
-      this.articleService.saveArticle(article);
+      // Add the article if it's not saved
+      this.articleService.addArticle(article);
+      console.log(`Article added: ${article.title}`);
     }
 
-    this.isSaved.set(!this.isSaved());
-  }
-
-  handleSaveClick(event: MouseEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.saveArticle();
+    // Log the updated list of saved articles
+    console.log('Updated saved articles:', this.articleService.savedArticles());
   }
 }
