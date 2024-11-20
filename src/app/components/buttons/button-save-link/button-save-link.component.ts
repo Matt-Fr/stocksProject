@@ -1,6 +1,6 @@
 import { Component, inject, input, OnInit, OnDestroy } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { FavoriteTickersService } from '../../../services/favoriteTickers/favorite-tickers.service';
 import { TooltipModule } from 'primeng/tooltip';
@@ -12,7 +12,7 @@ import { ToastModule } from 'primeng/toast';
   standalone: true,
   imports: [ButtonModule, RouterModule, TooltipModule, ToastModule],
   templateUrl: './button-save-link.component.html',
-  styleUrl: './button-save-link.component.css',
+  styleUrls: ['./button-save-link.component.css'],
   providers: [MessageService],
 })
 export class ButtonSaveLinkComponent implements OnInit, OnDestroy {
@@ -23,6 +23,7 @@ export class ButtonSaveLinkComponent implements OnInit, OnDestroy {
   favoriteTickersService = inject(FavoriteTickersService); // Inject the service
   private subscription!: Subscription; // Subscription to manage observable
   messageService = inject(MessageService);
+  router = inject(Router);
 
   tickerAddedToast(ticker: string) {
     this.messageService.add({
@@ -46,6 +47,10 @@ export class ButtonSaveLinkComponent implements OnInit, OnDestroy {
         this.checked = tickers.includes(this.text());
       }
     );
+  }
+
+  navigateToTicker() {
+    this.router.navigate(['/ticker', this.url()]);
   }
 
   toggleFavorite() {

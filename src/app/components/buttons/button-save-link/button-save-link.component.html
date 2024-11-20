@@ -1,7 +1,7 @@
 <div>
-  <a
+  <button
     pButton
-    [href]="'/ticker/' + url()"
+    (click)="navigateToTicker()"
     [text]="true"
     [raised]="true"
     class="btn-border-right-none"
@@ -10,7 +10,7 @@
     placeholder="Top"
   >
     {{ text() }}
-  </a>
+  </button>
   <button
     pButton
     [text]="true"
@@ -21,4 +21,4 @@
     (click)="toggleFavorite()"
   ></button>
 </div>
-<p-toast />
+<p-toast></p-toast>
