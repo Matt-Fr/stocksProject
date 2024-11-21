@@ -1,27 +1,70 @@
-# StocksProject
+# StockLens
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.1.
+**StockLens** is a dashboard application that allows users to visualize and compare American stocks/trackers, read articles about stocks, and manage their favorite trackers. Built with **Angular 18**, **PrimeNG**, **RxJS** and **Signals**, the application delivers a user-friendly and interactive experience for stock enthusiasts.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Stock Visualization**: View detailed information and performance metrics of stocks and trackers.
+- **Interactive Graphs**: Dynamic and responsive charts using **ECharts**.
+- **News Articles**: Stay updated with the latest stock-related news.
+- **Favorites Management**: Save and quickly access favorite stocks or trackers.
+- **Error Handling**: Friendly error messages for scenarios like `Ticker Not Found` or rate-limiting issues.
 
-## Code scaffolding
+## Demo
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+https://stocklens-six.vercel.app/
 
-## Build
+## Technologies Used
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- **Framework**: Angular 18
+- **Charts**: ngx-echarts with ECharts
+- **UI Components**: PrimeNG, PrimeFlex
+- **State Management**: RxJS and Signals
+- **Styling**: CSS and PrimeFlex
 
-## Running unit tests
+## Installation and Setup
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Prerequisites
 
-## Running end-to-end tests
+- Node.js (v16 or higher)
+- npm (v8 or higher)
+- Angular CLI (v18 or higher)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Steps
 
-## Further help
+1. Clone the repository and navigate into the project directory:
+   ```bash
+   git clone https://github.com/your-username/stocklens.git && cd stocklens
+   npm install
+   npm start
+   ```
+2. Install the project dependencies:
+   npm install
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+3. Start the development server:
+   ng serve
+4. Open the application in your browser:
+   http://localhost:4200
+
+markdown
+Copier le code
+
+### Additional Setup
+
+Ensure you have an `environment.development.ts` file in a folder named `environments` with the following content:
+
+```typescript
+export const environment = {
+  production: false,
+  apiKeyPolygon: "your key"
+  apiKeyPolygon2: "your key"
+  apiKeyTickerNews: "your key"
+};
+
+You will need to obtain one of each of these API keys to run the project successfully. The keys can be obtained from the respective API providers:
+
+2 keys from Polygon API: https://polygon.io
+1 from Marketaux (the ticker news) : https://www.marketaux.com/documentation
+
+If you have any questions or need assistance setting up the environment, feel free to ask.
+```
