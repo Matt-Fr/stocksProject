@@ -53,13 +53,13 @@ Copier le code
 
 Ensure you have an `environment.development.ts` file in a folder named `environments` with the following content:
 
-```typescript
+````typescript
 export const environment = {
   production: false,
   apiKeyPolygon: "your key"
   apiKeyPolygon2: "your key"
   apiKeyTickerNews: "your key"
-};
+}; ```
 
 You will need to obtain one of each of these API keys to run the project successfully. The keys can be obtained from the respective API providers:
 
@@ -67,4 +67,5 @@ You will need to obtain one of each of these API keys to run the project success
 1 from Marketaux (the ticker news) : https://www.marketaux.com/documentation
 
 If you have any questions or need assistance setting up the environment, feel free to ask.
-```
+
+````
