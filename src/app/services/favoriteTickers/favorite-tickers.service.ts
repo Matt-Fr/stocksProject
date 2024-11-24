@@ -1,34 +1,31 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FavoriteTickersService {
-  favoriteTickersSubject = new BehaviorSubject<string[]>([]);
-  favoriteTickers$ = this.favoriteTickersSubject.asObservable();
+  favoriteTickers = signal<string[]>([]); // Signal to store favorite tickers
 
   constructor() {
     const storedTickers = localStorage.getItem('favoriteTickers');
     if (storedTickers) {
-      this.favoriteTickersSubject.next(JSON.parse(storedTickers));
+      this.favoriteTickers.set(JSON.parse(storedTickers));
     }
   }
 
-  addTicker(ticker: string) {
-    const currentTickers = this.favoriteTickersSubject.getValue();
+  addTicker(ticker: string): void {
+    const currentTickers = this.favoriteTickers();
+
     if (!currentTickers.includes(ticker)) {
       const updatedTickers = [...currentTickers, ticker];
-      this.favoriteTickersSubject.next(updatedTickers);
+      this.favoriteTickers.set(updatedTickers);
       localStorage.setItem('favoriteTickers', JSON.stringify(updatedTickers));
     }
   }
 
-  removeTicker(ticker: string) {
-    const updatedTickers = this.favoriteTickersSubject
-      .getValue()
-      .filter((t) => t !== ticker);
-    this.favoriteTickersSubject.next(updatedTickers);
+  removeTicker(ticker: string): void {
+    const updatedTickers = this.favoriteTickers().filter((t) => t !== ticker);
+    this.favoriteTickers.set(updatedTickers);
     localStorage.setItem('favoriteTickers', JSON.stringify(updatedTickers));
   }
 }

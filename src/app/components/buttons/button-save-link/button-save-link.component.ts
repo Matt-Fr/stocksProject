@@ -1,6 +1,5 @@
-import { Component, inject, input, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { FavoriteTickersService } from '../../../services/favoriteTickers/favorite-tickers.service';
 import { TooltipModule } from 'primeng/tooltip';
@@ -15,17 +14,20 @@ import { ToastModule } from 'primeng/toast';
   styleUrls: ['./button-save-link.component.css'],
   providers: [MessageService],
 })
-export class ButtonSaveLinkComponent implements OnInit, OnDestroy {
-  text = input<string>('');
-  url = input<string>();
-  tooltipText = input<string>();
-  checked = false; // Simple boolean instead of signal
+export class ButtonSaveLinkComponent {
+  text = input<string>(''); // Ticker text input
+  url = input<string>(); // URL input
+  tooltipText = input<string>(); // Tooltip text input
   favoriteTickersService = inject(FavoriteTickersService); // Inject the service
-  private subscription!: Subscription; // Subscription to manage observable
   messageService = inject(MessageService);
   router = inject(Router);
 
-  tickerAddedToast(ticker: string) {
+  // Reactive getter for checked state based on the signal
+  get checked(): boolean {
+    return this.favoriteTickersService.favoriteTickers().includes(this.text());
+  }
+
+  tickerAddedToast(ticker: string): void {
     this.messageService.add({
       severity: 'success',
       detail: `${ticker} added to your favorite tickers`,
@@ -33,27 +35,19 @@ export class ButtonSaveLinkComponent implements OnInit, OnDestroy {
     });
   }
 
-  tickerRemovedToast(ticker: string) {
+  tickerRemovedToast(ticker: string): void {
     this.messageService.add({
       severity: 'info',
-      detail: `${ticker} removed from your favorite tickers `,
+      detail: `${ticker} removed from your favorite tickers`,
       life: 1200,
     });
   }
 
-  ngOnInit() {
-    this.subscription = this.favoriteTickersService.favoriteTickers$.subscribe(
-      (tickers) => {
-        this.checked = tickers.includes(this.text());
-      }
-    );
-  }
-
-  navigateToTicker() {
+  navigateToTicker(): void {
     this.router.navigate(['/ticker', this.url()]);
   }
 
-  toggleFavorite() {
+  toggleFavorite(): void {
     const ticker = this.text();
 
     if (this.checked) {
@@ -62,12 +56,6 @@ export class ButtonSaveLinkComponent implements OnInit, OnDestroy {
     } else {
       this.favoriteTickersService.addTicker(ticker);
       this.tickerAddedToast(ticker);
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
     }
   }
 }
