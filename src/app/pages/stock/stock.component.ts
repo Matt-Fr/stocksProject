@@ -69,8 +69,6 @@ export class StockComponent {
         this.favoriteTickers.set(
           storedTickers ? JSON.parse(storedTickers) : []
         );
-        console.log(this.filteredFavoriteTickers());
-        console.log(this.favoriteTickers());
       } else {
         console.error('Ticker not found in the URL');
       }
@@ -169,8 +167,6 @@ export class StockComponent {
 
   submitInput(data: string) {
     this.enteredText.set(data);
-    // console.log(this.enteredText());
-
     if (data) {
       this.fetchStockData(data, this.duration(), 'data2');
     } else {

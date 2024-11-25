@@ -54,7 +54,6 @@ export class HomeComponent {
 
   checkInput(data: string) {
     this.enteredText.set(data);
-    console.log(this.enteredText());
     this.router.navigate([`/ticker/${this.enteredText()}`]);
   }
 }

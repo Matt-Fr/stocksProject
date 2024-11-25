@@ -54,14 +54,9 @@ export class ThumbnailArticleComponent {
     if (isAlreadySaved) {
       // Remove the article if it's already saved
       this.articleService.removeArticle(article);
-      console.log(`Article removed: ${article.title}`);
     } else {
       // Add the article if it's not saved
       this.articleService.addArticle(article);
-      console.log(`Article added: ${article.title}`);
     }
-
-    // Log the updated list of saved articles
-    console.log('Updated saved articles:', this.articleService.savedArticles());
   }
 }

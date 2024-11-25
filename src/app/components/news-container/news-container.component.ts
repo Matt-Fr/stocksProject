@@ -26,7 +26,6 @@ export class NewsContainerComponent {
     const subscription = this.newsService.fetchNewsArticle(ticker).subscribe({
       next: (resData) => {
         this.dataNews.set(resData.data);
-        console.log(resData.data);
       },
     });
     this.destroyRef.onDestroy(() => {
