@@ -1,0 +1,10 @@
+::ng-deep .p-card .p-card-body {
+  padding: 1.25rem; /* Default padding */
+}
+
+/* Adjust padding for mobile screens */
+@media (max-width: 768px) {
+  ::ng-deep .p-card .p-card-body {
+    padding: 0.5rem; /* Mobile padding */
+  }
+}
