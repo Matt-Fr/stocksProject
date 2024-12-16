@@ -1,4 +1,4 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, Input, input, signal } from '@angular/core';
 import { calculatorResult } from '../../models/CalculatorInput.model';
 import { CurrencyPipe } from '@angular/common';
 import { TableModule } from 'primeng/table';
@@ -11,5 +11,7 @@ import { TableModule } from 'primeng/table';
   styleUrl: './calculator-result-table.component.css',
 })
 export class CalculatorResultTableComponent {
-  @Input() calculatedDataInput: calculatorResult[] | undefined;
+  // @Input() calculatedDataInput: calculatorResult[] | undefined;
+
+  calculatedDataInput = input<calculatorResult[]>();
 }

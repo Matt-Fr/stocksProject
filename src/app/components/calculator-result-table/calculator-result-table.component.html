@@ -1,7 +1,7 @@
-@if (!calculatedDataInput) {
+@if (!calculatedDataInput()) {
 <p>Please, enter some values and press "Calculate"</p>
 } @else {
-<p-table [value]="calculatedDataInput">
+<p-table [value]="calculatedDataInput()!">
   <ng-template pTemplate="header">
     <tr>
       <th>Year</th>
